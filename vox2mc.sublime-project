@@ -1,0 +1,24 @@
+{
+	"folders":
+	[
+		{
+			"path": "/A/Projects/vox2mc",
+			"file_exclude_patterns":
+			[
+				"*.dll",
+				"LICENSE",
+				"*.mtl",
+				"*.obj",
+				"*.png",
+				"*.vox",
+				"*.sublime-project",
+				"*.sublime-workspace",
+				"*.md",
+				".gitignore",
+				"*.bat",
+				"*.sh",
+				"*.meta"
+			]
+		}
+	]
+}
