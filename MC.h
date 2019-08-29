@@ -22,12 +22,6 @@ class MarchingCubeModel {
 		vector<int>			indices;
 		vector<uchar>		colors;
 
-		vec<int> remapPositionI(float x, float y, float z, VOX vox) {
-			return vec<int>(
-				//y, vox.SizeX() - x - 1, z
-				x, z, y
-			);
-		}
 	public:
 		string name = "Model";
 
@@ -35,19 +29,7 @@ class MarchingCubeModel {
 		~MarchingCubeModel() {};
 
 		void LoadVoxels(VOX vox, float scale = 0.03125f) {
-			/*
-			vertex	corner4[6] {
-				{-1,  0,  0},
-				{ 1,  0,  0},
-				{ 0,  0, -1},
-				{ 0,  0,  1},
-				{ 0,  1,  0},
-				{ 0, -1,  0}
-			};
-			*/
-			vertex	corner[27] {
-				//{0, 0, 0}, {1, 0, 0}, {1, 1, 0}, {0, 1, 0},
-				//{0, 0, 1}, {1, 0, 1}, {1, 1, 1}, {0, 1, 1}
+			const vertex	corner[27] {
 				{-1, -1, -1},
 				{ 0, -1, -1},
 				{ 1, -1, -1},
@@ -84,7 +66,7 @@ class MarchingCubeModel {
 				{ 0,  1,  1},
 				{ 1,  1,  1}
 			};
-			uchar	cornerBits[27] {
+			const uchar	cornerBits[27] {
 				0b00000001,
 				0b00000011,
 				0b00000010,
@@ -121,7 +103,7 @@ class MarchingCubeModel {
 				0b11000000,
 				0b01000000
 			};
-			vertex	edgeOffset[12][2] {
+			const vertex	edgeOffset[12][2] {
 				{{0, 0, 0}, {1, 0, 0}},
 				{{1, 0, 0}, {1, 1, 0}},
 				{{0, 1, 0}, {1, 1, 0}},
@@ -138,27 +120,121 @@ class MarchingCubeModel {
 				{{0, 1, 0}, {0, 1, 1}}
 			};
 
-			vec<int>	halfSize(vox.SizeX() / 2, vox.SizeY() / 2, vox.SizeZ() / 2);
+			const vec<int>	colorGrab[] = {
+				//a
+				{0, 1, 0},
+				{1, 0, 0},
+				{0, -1, 0},
+				{-1, 0, 0},
+				{0, 0, 1},
+				{0, 0, -1},
 
-			int		ID		= 0;
-			for(int z = -1; z <= vox.SizeZ(); ++z) {
-				for(int y = -1; y <= vox.SizeY(); ++y) {
-					for(int x = -1; x <= vox.SizeX(); ++x) {
+				//b
+				{0, 1, 1},
+				{1, 0, 1},
+				{0, -1, 1},
+				{-1, 0, 1},
+
+				{0, 1, -1},
+				{1, 0, -1},
+				{0, -1, -1},
+				{-1, 0, -1},
+
+				//c
+				{1, 1, 0},
+				{1, -1, 0},
+				{-1, -1, 0},
+				{-1, 1, 0},
+
+				//d
+				{1, 1, -1},
+				{1, -1, -1},
+				{-1, -1, -1},
+				{-1, 1, -1},
+
+				{1, 1, 1},
+				{1, -1, 1},
+				{-1, -1, 1},
+				{-1, 1, 1}
+			};
+
+			int			ID		= 0;
+
+			//Space allocation
+			VOX 		newVox(vox.SizeX() * 3, vox.SizeZ() * 3, vox.SizeY() * 3);
+			VOX 		finalVox(newVox.SizeX(), newVox.SizeY(), newVox.SizeZ());
+			vec<int>	halfSize(newVox.SizeX() * 0.5f, newVox.SizeY() * 0.5f, newVox.SizeZ() * 0.5f);
+
+			//Palette copy
+			for(int i = 0; i < 256; ++i) {
+				finalVox.AccessPalleteColor(i).Set(
+					vox.AccessPalleteColor(i)
+				);
+			}
+			//Scalling 3x
+			for(int z = 0; z < vox.SizeZ(); ++z) {
+				for(int y = 0; y < vox.SizeY(); ++y) {
+					for(int x = 0; x < vox.SizeX(); ++x) {
+						ID = vox.GetVoxel(x, y, z);
+						if(ID > 0) {
+							for(int Z = 0; Z < 3; ++Z) {
+								for(int Y = 0; Y < 3; ++Y) {
+									for(int X = 0; X < 3; ++X) {
+										newVox.SetVoxel(
+											3 * x + X,
+											3 * z + Z,
+											3 * y + Y,
+											ID
+										);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			//Removing corner/edge voxels
+			for(int z = 0; z < newVox.SizeZ(); ++z) {
+				for(int y = 0; y < newVox.SizeY(); ++y) {
+					for(int x = 0; x < newVox.SizeX(); ++x) {
+						ID = 0;
+						//Corners/Edge ignoring
+						for(int i = 0; i < 6; ++i) {
+							//Copy voxel with rotation fix (Magica => Unity)
+							if(newVox.GetVoxel(
+								x + colorGrab[i].x,
+								y + colorGrab[i].y,
+								z + colorGrab[i].z
+							) > 0) {
+								++ID;
+							}
+						}
+						if(ID >= 5) {
+							finalVox.SetVoxel(x, y, z, newVox.GetVoxel(x, y, z));
+						}
+					}
+				}
+			}
+
+			//MC
+			for(int z = -1; z <= finalVox.SizeZ(); ++z) {
+				for(int y = -1; y <= finalVox.SizeY(); ++y) {
+					for(int x = -1; x <= finalVox.SizeX(); ++x) {
 						uchar	bits	= 0;
 
 						for(size_t i = 0; i < 27; ++i) {
-							ID = vox.GetVoxel(remapPositionI(
+							ID = finalVox.GetVoxel(
 								x + corner[i].x,
 								y + corner[i].y,
-								z + corner[i].z,
-								vox
-							));
+								z + corner[i].z
+							);
 							if(ID > 0) {
 								bits |= cornerBits[i];
 							}
 						}
 
-						ID = vox.GetVoxel(x, y, z);
+						ID = finalVox.GetVoxel(x, y, z);
 
 						if(bits == 0 or bits == 255)
 							continue;
@@ -207,50 +283,10 @@ class MarchingCubeModel {
 								break;
 						}
 
-
-						const vec<int>	colorGrab[] = {
-							//a
-							vec<int>(0, 1, 0),
-							vec<int>(1, 0, 0),
-							vec<int>(0, -1, 0),
-							vec<int>(-1, 0, 0),
-							vec<int>(0, 1, 0),
-							vec<int>(0, 0, 1),
-							vec<int>(0, 0, -1),
-
-							//b
-							vec<int>(0, 1, 1),
-							vec<int>(1, 0, 1),
-							vec<int>(0, -1, 1),
-							vec<int>(-1, 0, 1),
-
-							vec<int>(0, 1, -1),
-							vec<int>(1, 0, -1),
-							vec<int>(0, -1, -1),
-							vec<int>(-1, 0, -1),
-
-							//c
-							vec<int>(1, 1, 0),
-							vec<int>(1, -1, 0),
-							vec<int>(-1, -1, 0),
-							vec<int>(-1, 1, 0),
-
-							//d
-							vec<int>(1, 1, -1),
-							vec<int>(1, -1, -1),
-							vec<int>(-1, -1, -1),
-							vec<int>(-1, 1, -1),
-
-							vec<int>(1, 1, 1),
-							vec<int>(1, -1, 1),
-							vec<int>(-1, -1, 1),
-							vec<int>(-1, 1, 1)
-						};
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
-							ID = vox.GetVoxel(remapPositionI(
-								colorGrab[i].x + x, colorGrab[i].y + y, colorGrab[i].z + z,
-								vox
-							));
+							ID = finalVox.GetVoxel(
+								colorGrab[i].x + x, colorGrab[i].y + y, colorGrab[i].z + z
+							);
 							if(ID != 0) {
 								for(int j = 0; j < triangulationVert; ++j) {
 									colors.push_back(ID - 1);
