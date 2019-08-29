@@ -161,7 +161,9 @@ class MarchingCubeModel {
 			int			ID		= 0;
 
 			//Space allocation
-			VOX 		newVox(vox.SizeX() * 3, vox.SizeZ() * 3, vox.SizeY() * 3);
+			const float	upscale	=  3.0f;
+			scale				/= upscale;
+			VOX 		newVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 			VOX 		finalVox(newVox.SizeX(), newVox.SizeY(), newVox.SizeZ());
 			vec<int>	halfSize(newVox.SizeX() * 0.5f, newVox.SizeY() * 0.5f, newVox.SizeZ() * 0.5f);
 
@@ -177,13 +179,13 @@ class MarchingCubeModel {
 					for(int x = 0; x < vox.SizeX(); ++x) {
 						ID = vox.GetVoxel(x, y, z);
 						if(ID > 0) {
-							for(int Z = 0; Z < 3; ++Z) {
-								for(int Y = 0; Y < 3; ++Y) {
-									for(int X = 0; X < 3; ++X) {
+							for(int Z = 0; Z < upscale; ++Z) {
+								for(int Y = 0; Y < upscale; ++Y) {
+									for(int X = 0; X < upscale; ++X) {
 										newVox.SetVoxel(
-											3 * x + X,
-											3 * z + Z,
-											3 * y + Y,
+											upscale * x + X,
+											upscale * z + Z,
+											upscale * y + Y,
 											ID
 										);
 									}
