@@ -59,29 +59,42 @@ class vec {
 			return result;
 		}
 
+		//Logic
 		inline bool operator==(const vec<T>& rhs) const {
 			return z == rhs.z and y == rhs.y and x == rhs.x;
 		}
+
+		//Artmetic
+		inline vec<T> operator+(const vec<T>& rhs) const {
+			return vec<T>(z + rhs.z, y + rhs.y, x + rhs.x);
+		}
+		inline vec<T> operator-(const vec<T>& rhs) const {
+			return vec<T>(z - rhs.z, y - rhs.y, x - rhs.x);
+		}
+		inline vec<T> operator*(const vec<T>& rhs) const {
+			return vec<T>(z * rhs.z, y * rhs.y, x * rhs.x);
+		}
+
+		//by Scalar
+		inline vec<T> operator*(const T rhs) const {
+			return vec<T>(z * rhs, y * rhs, x * rhs);
+		}
 };
+template<typename T, typename K>
+inline vec<K> operator+(const vec<T>& lhs, const vec<K>& rhs) {
+	return vec<K>(lhs.z + rhs.z, lhs.y + rhs.y, lhs.x + rhs.x);
+}
 
 class VOX {
 	private:
-		//Static
-		static constexpr const int MV_VERSION	= 150;
-		static constexpr const int ID_VOX		= 0x20584F56;	//VOX 
-
 		vec<int>	size;
 		vec<uchar>	palette[256];
 		uchar*		voxel			= nullptr;
 
 		int			version			= 0;
 	public:
-		~VOX() {
-			//if(voxel != nullptr)
-			//	delete[]	voxel;
-		}
-		
-		VOX() {}
+		VOX()
+		{}
 		VOX(int sizeX, int sizeY, int sizeZ) {
 			size.Set(sizeX, sizeY, sizeZ);
 			unsigned int wholeSize	= size.x * size.y * size.z;
@@ -92,6 +105,11 @@ class VOX {
 			if(not LoadFile(path))
 				throw false;
 		}
+		~VOX() {
+			//if(voxel != nullptr)
+			//	delete[]	voxel;
+		}
+		
 
 		inline int SizeX() {
 			return size.x;
@@ -127,8 +145,14 @@ class VOX {
 			and x > -1 and y > -1 and z > -1 
 			and x < size.x and y < size.y and z < size.z 
 			) {
-				voxel[x + size.x * (y + size.y * z)] 	= colorPalleteIndex;
+				SetVoxelRaw(x, y, z, colorPalleteIndex);
 			}
+		}
+		inline void SetVoxelRaw(int x, int y, int z, uchar colorPalleteIndex) {
+			voxel[x + size.x * (y + size.y * z)] 	= colorPalleteIndex;
+		}
+		inline void SetVoxelRaw(vec<int> pos, uchar colorPalleteIndex) {
+			SetVoxelRaw(pos.x, pos.y, pos.z, colorPalleteIndex);
 		}
 
 		uchar GetVoxel(int x, int y, int z) {
@@ -138,10 +162,16 @@ class VOX {
 			) {
 				return 0;
 			}
-			return voxel[x + size.x * (y + size.y * z)];
+			return GetVoxelRaw(x, y, z);
 		}
 		inline uchar GetVoxel(vec<int> pos) {
 			return GetVoxel(pos.x, pos.y, pos.z);
+		}
+		inline uchar GetVoxelRaw(int x, int y, int z) {
+			return voxel[x + size.x * (y + size.y * z)];
+		}
+		inline uchar GetVoxelRaw(vec<int> pos) {
+			return GetVoxelRaw(pos.x, pos.y, pos.z);
 		}
 
 		inline vec<uchar>& AccessPalleteColor(uchar index) {
@@ -411,5 +441,8 @@ class VOX {
 			};
 			memcpy(reinterpret_cast<void*>(palette), defaultPalette, sizeof(vec<uchar>) * 255);
 		}
+
+		static constexpr const int MV_VERSION	= 150;
+		static constexpr const int ID_VOX		= 0x20584F56;	//VOX 
 };
 #endif

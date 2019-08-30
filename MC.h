@@ -11,6 +11,7 @@
 #include "VOX.h"
 
 typedef vec<int>	triangle;
+typedef vec<int>	coord;
 typedef vec<float>	vertex;
 
 class MarchingCubeModel {
@@ -28,141 +29,11 @@ class MarchingCubeModel {
 		MarchingCubeModel() {}
 		~MarchingCubeModel() {};
 
-		void LoadVoxels(VOX vox, float scale = 0.03125f) {
-			const vertex	corner[27] {
-				{-1, -1, -1},
-				{ 0, -1, -1},
-				{ 1, -1, -1},
-
-				{-1,  0, -1},
-				{ 0,  0, -1},
-				{ 1,  0, -1},
-
-				{-1,  1, -1},
-				{ 0,  1, -1},
-				{ 1,  1, -1},
-
-				{-1, -1,  0},
-				{ 0, -1,  0},
-				{ 1, -1,  0},
-
-				{-1,  0,  0},
-				{ 0,  0,  0},
-				{ 1,  0,  0},
-
-				{-1,  1,  0},
-				{ 0,  1,  0},
-				{ 1,  1,  0},
-
-				{-1, -1,  1},
-				{ 0, -1,  1},
-				{ 1, -1,  1},
-
-				{-1,  0,  1},
-				{ 0,  0,  1},
-				{ 1,  0,  1},
-
-				{-1,  1,  1},
-				{ 0,  1,  1},
-				{ 1,  1,  1}
-			};
-			const uchar	cornerBits[27] {
-				0b00000001,
-				0b00000011,
-				0b00000010,
-
-				0b00001001,
-				0b00001111,
-				0b00000110,
-
-				0b00001000,
-				0b00001100,
-				0b00000100,
-
-				0b00010001,
-				0b00110011,
-				0b00100010,
-
-				0b10011001,
-				0b11111111,
-				0b01100110,
-
-				0b10001000,
-				0b11001100,
-				0b01000100,
-
-				0b00010000,
-				0b00110000,
-				0b00100000,
-
-				0b10010000,
-				0b11110000,
-				0b01100000,
-
-				0b10000000,
-				0b11000000,
-				0b01000000
-			};
-			const vertex	edgeOffset[12][2] {
-				{{0, 0, 0}, {1, 0, 0}},
-				{{1, 0, 0}, {1, 1, 0}},
-				{{0, 1, 0}, {1, 1, 0}},
-				{{0, 0, 0}, {0, 1, 0}},
-
-				{{0, 0, 1}, {1, 0, 1}},
-				{{1, 0, 1}, {1, 1, 1}},
-				{{0, 1, 1}, {1, 1, 1}},
-				{{0, 0, 1}, {0, 1, 1}},
-
-				{{0, 0, 0}, {0, 0, 1}},
-				{{1, 0, 0}, {1, 0, 1}},
-				{{1, 1, 0}, {1, 1, 1}},
-				{{0, 1, 0}, {0, 1, 1}}
-			};
-
-			const vec<int>	colorGrab[] = {
-				//a
-				{0, 1, 0},
-				{1, 0, 0},
-				{0, -1, 0},
-				{-1, 0, 0},
-				{0, 0, 1},
-				{0, 0, -1},
-
-				//b
-				{0, 1, 1},
-				{1, 0, 1},
-				{0, -1, 1},
-				{-1, 0, 1},
-
-				{0, 1, -1},
-				{1, 0, -1},
-				{0, -1, -1},
-				{-1, 0, -1},
-
-				//c
-				{1, 1, 0},
-				{1, -1, 0},
-				{-1, -1, 0},
-				{-1, 1, 0},
-
-				//d
-				{1, 1, -1},
-				{1, -1, -1},
-				{-1, -1, -1},
-				{-1, 1, -1},
-
-				{1, 1, 1},
-				{1, -1, 1},
-				{-1, -1, 1},
-				{-1, 1, 1}
-			};
-
+		void LoadVoxels(VOX vox, float scale = 0.03125f, float upscale = 3.0f) {
 			int			ID		= 0;
 
 			//Space allocation
-			const float	upscale	=  3.0f;
-			scale				/= upscale;
+			scale		/= upscale;
 			VOX 		newVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 			VOX 		finalVox(newVox.SizeX(), newVox.SizeY(), newVox.SizeZ());
 			vec<int>	halfSize(newVox.SizeX() * 0.5f, newVox.SizeY() * 0.5f, newVox.SizeZ() * 0.5f);
@@ -177,12 +48,13 @@ class MarchingCubeModel {
 			for(int z = 0; z < vox.SizeZ(); ++z) {
 				for(int y = 0; y < vox.SizeY(); ++y) {
 					for(int x = 0; x < vox.SizeX(); ++x) {
-						ID = vox.GetVoxel(x, y, z);
+						ID = vox.GetVoxelRaw(x, y, z);
 						if(ID > 0) {
 							for(int Z = 0; Z < upscale; ++Z) {
 								for(int Y = 0; Y < upscale; ++Y) {
 									for(int X = 0; X < upscale; ++X) {
-										newVox.SetVoxel(
+										//Copy voxel with rotation fix (Magica => Unity)
+										newVox.SetVoxelRaw(
 											upscale * x + X,
 											upscale * z + Z,
 											upscale * y + Y,
@@ -203,13 +75,12 @@ class MarchingCubeModel {
 						ID = 0;
 						//Corners/Edge ignoring
 						for(int i = 0; i < 6; ++i) {
-							//Copy voxel with rotation fix (Magica => Unity)
 							if(newVox.GetVoxel(
 								x + colorGrab[i].x,
 								y + colorGrab[i].y,
 								z + colorGrab[i].z
 							) > 0) {
-								++ID;
+								 ++ID;
 							}
 						}
 						if(ID >= 5) {
@@ -223,73 +94,65 @@ class MarchingCubeModel {
 			for(int z = -1; z <= finalVox.SizeZ(); ++z) {
 				for(int y = -1; y <= finalVox.SizeY(); ++y) {
 					for(int x = -1; x <= finalVox.SizeX(); ++x) {
-						uchar	bits	= 0;
+						uchar		bits	= 0;
+						vec<int>	position(x, y, z);
 
 						for(size_t i = 0; i < 27; ++i) {
-							ID = finalVox.GetVoxel(
-								x + corner[i].x,
-								y + corner[i].y,
-								z + corner[i].z
-							);
-							if(ID > 0) {
+							if(ID = finalVox.GetVoxel(position + corner[i]); ID > 0) {
 								bits |= cornerBits[i];
 							}
 						}
 
-						ID = finalVox.GetVoxel(x, y, z);
+						ID = finalVox.GetVoxel(position);
 
 						if(bits == 0 or bits == 255)
 							continue;
 
-						bool out				= false;
 						int triangulationVert	= 0;
-						for(int i = 0; i < 5; ++i) {
-							for(int t = 0; t < 3; ++t) {
-								int edge = triangulation[bits][triangulationVert];
-								if(edge != -1) {
-									vec<float>	v1(
-										x + edgeOffset[edge][0].x,
-										y + edgeOffset[edge][0].y,
-										z + edgeOffset[edge][0].z
-									);
-									vec<float>	v2(
-										x + edgeOffset[edge][1].x,
-										y + edgeOffset[edge][1].y,
-										z + edgeOffset[edge][1].z
-									);
-									vec<float>	pos(
-										((v1.x + v2.x) * 0.5f - halfSize.x) * scale,
-										((v1.y + v2.y) * 0.5f) * scale,
-										((v1.z + v2.z) * 0.5f - halfSize.z) * scale
-									);
+						for(int i = 0; i < 15; ++i) {
+							if(int edge = triangulation[bits][triangulationVert]; edge != -1) {
+								/*
+								vertex	v1(
+									x + edgeOffset[edge][0].x,
+									y + edgeOffset[edge][0].y,
+									z + edgeOffset[edge][0].z
+								);
+								vertex	v2(
+									x + edgeOffset[edge][1].x,
+									y + edgeOffset[edge][1].y,
+									z + edgeOffset[edge][1].z
+								);
+								vertex	pos(
+									((v1.x + v2.x) * 0.5f - halfSize.x) * scale,
+									((v1.y + v2.y) * 0.5f) * scale,
+									((v1.z + v2.z) * 0.5f - halfSize.z) * scale
+								);
+								*/
+								auto	_v1 = position + edgeOffset[edge][0];
+								auto	_v2 = position + edgeOffset[edge][1];
+								vertex	v1(_v1.x, _v1.y, _v1.z);
+								vertex	v2(_v2.x, _v2.y, _v2.z);
+								vertex	pos(
+									((v1 + v2) * 0.5f - vec<float>(halfSize.x, 0, halfSize.z)) * scale
+								);
 
-									auto it = find(
-										vertices.begin(), vertices.end(), pos
-									);
-
-									if(it == vertices.end()) {
-										vertices.push_back(pos);
-										indices.push_back(vertices.size() - 1);
-									} else {
-										indices.push_back(distance(vertices.begin(), it));
-									}
-
-									++triangulationVert;
+								if(auto it = find(vertices.begin(), vertices.end(), pos);
+									it == vertices.end()
+								) {
+									vertices.push_back(pos);
+									indices.push_back(vertices.size() - 1);
 								} else {
-									out = true;
-									break;
+									indices.push_back(distance(vertices.begin(), it));
 								}
-							}
 
-							if(out)
+								++triangulationVert;
+							} else {
 								break;
+							}
 						}
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
-							ID = finalVox.GetVoxel(
-								colorGrab[i].x + x, colorGrab[i].y + y, colorGrab[i].z + z
-							);
-							if(ID != 0) {
+							if(ID = finalVox.GetVoxel(colorGrab[i] + position); ID != 0) {
 								for(int j = 0; j < triangulationVert; ++j) {
 									colors.push_back(ID - 1);
 								}
@@ -320,6 +183,34 @@ class MarchingCubeModel {
 				<< "vn -1 0 0\n"
 			<< endl;
 
+			/*
+			//TODO Normals calculation, old code used in previous project
+			vec4i&	A	= voxel[i]->vertex[3 * j];
+			vec4i&	B	= voxel[i]->vertex[3 * j + 1];
+			vec4i&	C	= voxel[i]->vertex[3 * j + 2];
+
+			vec4f	normalAB(B.x - A.x, B.y - A.y, B.z - A.z);
+			vec4f	normalAC(C.x - A.x, C.y - A.y, C.z - A.z);
+			vec4f	normalCross(normalAB.Cross(normalAC));
+			
+			stringstream ss;
+			ss	<< "vn " << normalCross.x 
+				<< " " << normalCross.y
+				<< " " << normalCross.z
+			;
+			string key = ss.str();
+			if(nMap.find(key) == nMap.end()) {
+				nMap[key] = nIdx;
+				voxel[i]->normalIdx[j] = nIdx;
+				++nIdx;
+
+				hFile << key << endl;
+			} else {
+				voxel[j]->normalIdx[j] = nMap[key];
+			}
+
+			*/
+
 			vector<int>		uniqueColors;
 			for(size_t i = 0; i < colors.size(); ++i) {
 				auto it = find(uniqueColors.begin(), uniqueColors.end(), colors[i]);
@@ -333,7 +224,7 @@ class MarchingCubeModel {
 			}
 
 			for(vertex& vert : vertices) {
-				hFile << "v " << -vert.x << ' ' << vert.y << ' ' << vert.z << '\n';
+				hFile << "v " << vert.x << ' ' << vert.y << ' ' << vert.z << '\n';
 			}
 
 			for(size_t i = 0; i < indices.size(); i += 3) {
@@ -363,6 +254,135 @@ class MarchingCubeModel {
 		}
 
 	private:
+		const coord	corner[27] {
+			{-1, -1, -1},
+			{ 0, -1, -1},
+			{ 1, -1, -1},
+
+			{-1,  0, -1},
+			{ 0,  0, -1},
+			{ 1,  0, -1},
+
+			{-1,  1, -1},
+			{ 0,  1, -1},
+			{ 1,  1, -1},
+
+			{-1, -1,  0},
+			{ 0, -1,  0},
+			{ 1, -1,  0},
+
+			{-1,  0,  0},
+			{ 0,  0,  0},
+			{ 1,  0,  0},
+
+			{-1,  1,  0},
+			{ 0,  1,  0},
+			{ 1,  1,  0},
+
+			{-1, -1,  1},
+			{ 0, -1,  1},
+			{ 1, -1,  1},
+
+			{-1,  0,  1},
+			{ 0,  0,  1},
+			{ 1,  0,  1},
+
+			{-1,  1,  1},
+			{ 0,  1,  1},
+			{ 1,  1,  1}
+		};
+		const uchar	cornerBits[27] {
+			0b00000001,
+			0b00000011,
+			0b00000010,
+
+			0b00001001,
+			0b00001111,
+			0b00000110,
+
+			0b00001000,
+			0b00001100,
+			0b00000100,
+
+			0b00010001,
+			0b00110011,
+			0b00100010,
+
+			0b10011001,
+			0b11111111,
+			0b01100110,
+
+			0b10001000,
+			0b11001100,
+			0b01000100,
+
+			0b00010000,
+			0b00110000,
+			0b00100000,
+
+			0b10010000,
+			0b11110000,
+			0b01100000,
+
+			0b10000000,
+			0b11000000,
+			0b01000000
+		};
+		const coord	edgeOffset[12][2] {
+			{{0, 0, 0}, {1, 0, 0}},
+			{{1, 0, 0}, {1, 1, 0}},
+			{{0, 1, 0}, {1, 1, 0}},
+			{{0, 0, 0}, {0, 1, 0}},
+
+			{{0, 0, 1}, {1, 0, 1}},
+			{{1, 0, 1}, {1, 1, 1}},
+			{{0, 1, 1}, {1, 1, 1}},
+			{{0, 0, 1}, {0, 1, 1}},
+
+			{{0, 0, 0}, {0, 0, 1}},
+			{{1, 0, 0}, {1, 0, 1}},
+			{{1, 1, 0}, {1, 1, 1}},
+			{{0, 1, 0}, {0, 1, 1}}
+		};
+
+		const coord	colorGrab[26] = {
+			//a
+			{0, 1, 0},
+			{1, 0, 0},
+			{0, -1, 0},
+			{-1, 0, 0},
+			{0, 0, 1},
+			{0, 0, -1},
+
+			//b
+			{0, 1, 1},
+			{1, 0, 1},
+			{0, -1, 1},
+			{-1, 0, 1},
+
+			{0, 1, -1},
+			{1, 0, -1},
+			{0, -1, -1},
+			{-1, 0, -1},
+
+			//c
+			{1, 1, 0},
+			{1, -1, 0},
+			{-1, -1, 0},
+			{-1, 1, 0},
+
+			//d
+			{1, 1, -1},
+			{1, -1, -1},
+			{-1, -1, -1},
+			{-1, 1, -1},
+
+			{1, 1, 1},
+			{1, -1, 1},
+			{-1, -1, 1},
+			{-1, 1, 1}
+		};
+
 		const int triangulation[256][16] = {
 			{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -619,8 +639,7 @@ class MarchingCubeModel {
 			{1, 3, 8, 9, 1, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{0, 9, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-			//{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
-			{3, 0, 4, 3, 4, 7, 0, 5, 4, 0, 1, 5, -1, -1, -1, -1}
+			{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 		};
 };
 #endif
