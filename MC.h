@@ -99,7 +99,8 @@ class MarchingCubeModel {
 						vec<int>	position(x, y, z);
 
 						for(size_t i = 0; i < 27; ++i) {
-							if(ID = finalVox.GetVoxel(position + corner[i]); ID > 0) {
+							ID = finalVox.GetVoxel(position + corner[i]);
+							if(ID > 0) {
 								bits |= cornerBits[i];
 							}
 						}
@@ -111,7 +112,8 @@ class MarchingCubeModel {
 
 						int triangulationVert	= 0;
 						for(int i = 0; i < 15; ++i) {
-							if(int edge = triangulation[bits][triangulationVert]; edge != -1) {
+							int edge = triangulation[bits][triangulationVert];
+							if(edge != -1) {
 								/*
 								vertex	v1(
 									x + edgeOffset[edge][0].x,
@@ -137,9 +139,8 @@ class MarchingCubeModel {
 									((v1 + v2) * 0.5f - vec<float>(halfSize.x, 0, halfSize.z)) * scale
 								);
 
-								if(auto it = find(vertices.begin(), vertices.end(), pos);
-									it == vertices.end()
-								) {
+								auto it = find(vertices.begin(), vertices.end(), pos);
+								if(it == vertices.end()) {
 									vertices.push_back(pos);
 									indices.push_back(vertices.size() - 1);
 								} else {
@@ -153,7 +154,8 @@ class MarchingCubeModel {
 						}
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
-							if(ID = finalVox.GetVoxel(colorGrab[i] + position); ID != 0) {
+							ID = finalVox.GetVoxel(colorGrab[i] + position);
+							if(ID != 0) {
 								for(int j = 0; j < triangulationVert; ++j) {
 									colors.push_back(ID - 1);
 								}
