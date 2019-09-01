@@ -4,6 +4,7 @@
 #include <string>
 #include <fstream>
 #include <cstring>
+#include <cmath>
 
 using namespace std;
 
@@ -58,6 +59,18 @@ class vec {
 			);
 			return result;
 		}
+		vec<T> Normalized() {
+			T len	= Length();
+			vec<T> result(
+				this->y / len,
+				this->z / len,
+				this->x / len
+			);
+			return result;
+		}
+		T Length() {
+			return (T)sqrt(x * x + y * y + z * z);
+		}
 
 		//Logic
 		inline bool operator==(const vec<T>& rhs) const {
@@ -110,7 +123,6 @@ class VOX {
 			//	delete[]	voxel;
 		}
 		
-
 		inline int SizeX() {
 			return size.x;
 		}

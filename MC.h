@@ -5,6 +5,7 @@
 #include <fstream>
 #include <vector>
 #include <algorithm>
+#include <map>
 #include <cstring>
 #include <cmath>
 
@@ -171,45 +172,53 @@ class MarchingCubeModel {
 				<< "#Vertex count: " << vertices.size() << '\n'
 				<< "#Triangles count: " << (indices.size() / 3) << '\n'
 				<< "g " << (name == ""? "Model": name) << '\n'
-				//<< "mtllib " << mtlFile << "\n"
 				<< "mtllib material.mtl\n"
 				<< "usemtl palette\n"
-				<< "\n"
-				<< "vn 0 0 1\n"
-				<< "vn 0 1 0\n"
-				<< "vn 1 0 0\n"
-				<< "vn 0 0 -1\n"
-				<< "vn 0 -1 0\n"
-				<< "vn -1 0 0\n"
 			<< endl;
 
-			/*
-			//TODO Normals calculation, old code used in previous project
-			vec4i&	A	= voxel[i]->vertex[3 * j];
-			vec4i&	B	= voxel[i]->vertex[3 * j + 1];
-			vec4i&	C	= voxel[i]->vertex[3 * j + 2];
+			//Vertex ID/Normal map
+			vector<vec<double>>	normals;
+			map<int, int>		normalMap;
+			int 			triangleID = 0;
+			for(size_t i = 0; i < indices.size(); ++i) {
+				if(i%3 == 0) {
+					++triangleID;
+				} else if(i%3 == 2) {
+					auto&	A	= vertices[indices[i - 2]];
+					auto&	B	= vertices[indices[i - 1]];
+					auto&	C	= vertices[indices[i]];
 
-			vec4f	normalAB(B.x - A.x, B.y - A.y, B.z - A.z);
-			vec4f	normalAC(C.x - A.x, C.y - A.y, C.z - A.z);
-			vec4f	normalCross(normalAB.Cross(normalAC));
-			
-			stringstream ss;
-			ss	<< "vn " << normalCross.x 
-				<< " " << normalCross.y
-				<< " " << normalCross.z
-			;
-			string key = ss.str();
-			if(nMap.find(key) == nMap.end()) {
-				nMap[key] = nIdx;
-				voxel[i]->normalIdx[j] = nIdx;
-				++nIdx;
+					vec<double>	AB(B.x - A.x, B.y - A.y, B.z - A.z);
+					vec<double>	AC(C.x - A.x, C.y - A.y, C.z - A.z);
+					vec<double>	normal(AB.Cross(AC).Normalized());
 
-				hFile << key << endl;
-			} else {
-				voxel[j]->normalIdx[j] = nMap[key];
+					//Naive "compression" due to doubles removal
+					normal.Set(
+						floor(normal.x * 10000.0) / 10000.0,
+						floor(normal.y * 10000.0) / 10000.0,
+						floor(normal.z * 10000.0) / 10000.0
+					);
+					//float/double bit sign problem
+					normal.Set(
+						normal.x == -0.0? 0.0: normal.x,
+						normal.y == -0.0? 0.0: normal.y,
+						normal.z == -0.0? 0.0: normal.z
+					);
+
+					auto it = find(normals.begin(), normals.end(), normal);
+					if(it != normals.end()) {
+						normalMap[i]	= distance(normals.begin(), it);
+					} else {
+						normals.push_back(normal);
+						normalMap[i] 	= normals.size();
+						hFile	<< "vn"
+								<< ' ' << normal.x
+								<< ' ' << normal.y
+								<< ' ' << normal.z
+						<< endl;
+					}
+				}
 			}
-
-			*/
 
 			vector<int>		uniqueColors;
 			for(size_t i = 0; i < colors.size(); ++i) {
@@ -233,19 +242,17 @@ class MarchingCubeModel {
 						<< (indices[i + 0] + 1) << "/";
 				auto it = find(uniqueColors.begin(), uniqueColors.end(), colors[i]);
 				hFile	<< (distance(uniqueColors.begin(), it) + 1)
-						<< "/1 "
+						<< "/" << normalMap[indices[i + 0]] << " "
 
 						<< (indices[i + 1] + 1) << "/";
 					 it = find(uniqueColors.begin(), uniqueColors.end(), colors[i + 1]);
 				hFile	<< (distance(uniqueColors.begin(), it) + 1)
-						<< "/1 "
-
-						
-						
+						<< "/" << normalMap[indices[i + 1]] << " "
+	
 						<< (indices[i + 2] + 1) << "/";
 					 it = find(uniqueColors.begin(), uniqueColors.end(), colors[i + 2]);
 				hFile	<< (distance(uniqueColors.begin(), it) + 1)
-						<< "/1\n";
+						<< "/" << normalMap[indices[i + 2]] << "\n";
 			}
 			hFile << '\n';
 
