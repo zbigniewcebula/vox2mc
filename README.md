@@ -19,10 +19,10 @@ Windows: gcc version 5.3.0 (GCC)
 		* __-ox__/__--offset-x__
 		* __-oy__/__--offset-y__
 		* __-oz__/__--offset-z__
-	4. flips
-		* __-fx__/__--flip-x__
-		* __-fy__/__--flip-y__
-		* __-fz__/__--flip-z__
+	4. ~~flips~~
+		* ~~__-fx__/__--flip-x__~~
+		* ~~__-fy__/__--flip-y__~~
+		* ~~__-fz__/__--flip-z__~~
 * Add support for batch conversion
 	1. ~~__-id__/__--input-dir__~~
 	2. ~~__-od__/__--output-dir__~~
