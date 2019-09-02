@@ -1,6 +1,6 @@
 #if 0
 #!/bin/bash
-g++ -ggdb $0 -Wall -pthread -Wno-unused-result --std=c++17 -O3 -o vox2mc
+g++ -ggdb $0 -Wall -pthread -fopenmp -Wno-unused-result --std=c++17 -O3 -o vox2mc
 exit
 #endif
 #include <iostream>
@@ -25,13 +25,16 @@ int main(int argc, char** argv) {
 
 	ParamManager	paramManager;
 	paramManager.addParamSeparator();
+
 	paramManager.addParam("-i", "--in", "Sets input VOX file", "INPUT_VOX");
 	paramManager.addParam("-o", "--out", "Sets output OBJ file (overrites existing file!)", "OUTPUT_OBJ");
 	paramManager.addParam(
-		"-id", "--input-dir", "Sets input directory for recursively find VOX files (use with -od flag, relative dir)", "INPUT_VOX_DIR"
+		"-id", "--input-dir", "Sets input directory for recursively find VOX files (use with -od flag)",
+		"INPUT_VOX_DIR"
 	);
 	paramManager.addParam(
-		"-od", "--output-dir", "Sets output directory for recursively found VOX files (use with -id flag, relative dir), copying -id inDirs structure", "OUTPUT_VOX_DIR"
+		"-od", "--output-dir", "Sets output directory for final OBJ files (use with -id flag), copies '-id inDirs' structure", 
+		"OUTPUT_VOX_DIR"
 	);
 	
 	paramManager.addParamSeparator();
@@ -44,6 +47,7 @@ int main(int argc, char** argv) {
 		return 1;
 	//--
 
+	//Gathering values
 	float	scale	= paramManager.hasValue("-s")? Helper::String2Float(paramManager.getValueOf("-s")): 0.03125f;
 	float	upscale	= paramManager.hasValue("-u")? Helper::String2Float(paramManager.getValueOf("-u")): 3.0f;
 
@@ -59,6 +63,7 @@ int main(int argc, char** argv) {
 		if(Helper::IsDir(inDir)) {
 			string	outDir	= Helper::GetAbsolutePath(paramManager.getValueOf("-od"));
 
+			//Gathering input directories tree
 			cout << "[Directories] Scanning input directories tree..." << endl;
 			vector<string> inDirs;
 			inDirs.push_back(inDir);
@@ -70,6 +75,7 @@ int main(int argc, char** argv) {
 				outDirs.push_back(Helper::ReplaceAll(inDirs[i], inDir, outDir));
 			}
 
+			//Making directory tree copy
 			cout << "[Directories] Creating new directories tree..." << endl;
 			if(not Helper::CreateDirList(outDirs)) {
 				cerr	<< "[Error] Problem with output directory creation!" << endl;
@@ -84,6 +90,7 @@ int main(int argc, char** argv) {
 				if(timeShow)
 					start = high_resolution_clock::now();
 
+				//Load
 				cout << "[" << idx++ << "] " << entry << flush;
 				
 				VOX model;
@@ -93,6 +100,7 @@ int main(int argc, char** argv) {
 				}
 				cout << '.' << flush;
 
+				//Convert
 				MarchingCubeModel output;
 				output.LoadVoxels(model, scale, upscale);
 
@@ -105,6 +113,7 @@ int main(int argc, char** argv) {
 				//Naive replace of VOX to OBJ in filename
 				outPath.replace(outPath.length() - 4, 4, ".obj");
 
+				//Save
 				output.SaveOBJ(outPath);
 
 				cout << '.' << flush;
@@ -115,26 +124,43 @@ int main(int argc, char** argv) {
 				}
 				cout << endl;
 			}
+		} else {
+			cerr << "[Directory] Input directory is inaccesible, does not exists or is not a directory!" << endl;
+			return 1;
 		}
 	} else {
 		string 	in	= Helper::GetAbsolutePath(paramManager.getValueOf("-i"));
 		string	out	= Helper::GetAbsolutePath(paramManager.getValueOf("-o"));
 
 		if(Helper::IsFile(in)) {
+			cout << "[] " << in << flush;
+
+			//Load
 			VOX model;
 			if(not model.LoadFile(in)) {
 				cerr	<< "[Error] Cannot open input file!" << endl;
 				return 1;
 			}
+			cout << '.' << flush;
 
+			//Convert & Save
 			MarchingCubeModel output;
-			output.LoadVoxels(model, scale);
+
+			cout << '.' << flush;
+			output.LoadVoxels(model, scale, upscale);
+			
+			cout << '.' << flush;
 			output.SaveOBJ(out);
+			cout << '.' << endl;
+		} else {
+			cerr << "[File] Input file is inaccesible, does not exists or is not a file!" << endl;
 		}
 	}
 	if(timeShow)
 		cout	<< "Done in: " 
-				<< duration_cast<seconds>(high_resolution_clock::now() - overallTime).count()
+				<< (duration_cast<milliseconds>(
+			high_resolution_clock::now() - overallTime
+		).count() / 1000.0)
 				<< "s" << endl;
 
 	return 0;

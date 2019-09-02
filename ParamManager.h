@@ -105,7 +105,7 @@ class ParamManager {
 					<< "Converts VOX file(s) into OBJ format file(s)\n\n"
 					<< "Available options:\n";
 			printList();
-			cout	<< "\nFor more visit: https://github.com/zbigniewcebula/vox2obj\n"
+			cout	<< "\nFor more visit: https://github.com/zbigniewcebula/vox2mc\n"
 					<< endl;
 		}
 

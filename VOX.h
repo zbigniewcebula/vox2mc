@@ -97,6 +97,10 @@ template<typename T, typename K>
 inline vec<K> operator+(const vec<T>& lhs, const vec<K>& rhs) {
 	return vec<K>(lhs.z + rhs.z, lhs.y + rhs.y, lhs.x + rhs.x);
 }
+template<typename T, typename K>
+inline vec<K> operator*(const vec<T>& lhs, K rhs) {
+	return vec<K>(lhs.z * rhs, lhs.y * rhs, lhs.x * rhs);
+}
 
 class VOX {
 	private:
@@ -109,10 +113,10 @@ class VOX {
 		VOX()
 		{}
 		VOX(int sizeX, int sizeY, int sizeZ) {
-			size.Set(sizeX, sizeY, sizeZ);
-			unsigned int wholeSize	= size.x * size.y * size.z;
-			voxel					= new uchar[wholeSize];
-			memset(voxel, 0, wholeSize);
+			Alloc(sizeX, sizeY, sizeZ);
+		}
+		VOX(vec<int> setSize) {
+			Alloc(setSize.x, setSize.y, setSize.z);
 		}
 		VOX(string path) {
 			if(not LoadFile(path))
@@ -132,6 +136,9 @@ class VOX {
 		inline int SizeZ() {
 			return size.z;
 		}
+		inline vec<int> Size() {
+			return size;
+		}
 
 		inline bool LoadFile(string path) {
 			return LoadFile(path.c_str());
@@ -147,6 +154,23 @@ class VOX {
 				return false;
 			}
 			bool success = ReadFile(hFile);
+
+			hFile.close();
+			return success;
+		}
+
+		inline bool SaveFile(string path) {
+			return SaveFile(path.c_str());
+		}
+		bool SaveFile(const char* name = "") {
+			//File
+			ofstream	hFile(name, ios::trunc bitor ios::out bitor ios::binary);
+
+			if(hFile.fail()) {
+				hFile.close();
+				return false;
+			}
+			bool success = WriteFile(hFile);
 
 			hFile.close();
 			return success;
@@ -190,90 +214,58 @@ class VOX {
 			return palette[index];
 		}
 
-		inline bool Save(string path) {
-			return Save(path.c_str());
-		}
-		bool Save(const char* name = "") {
-			//File
-			ofstream	hFile(name, ios::trunc bitor ios::out bitor ios::binary);
-
-			if(hFile.fail()) {
-				hFile.close();
-				return false;
-			}
-
-			//Temporary
-			int	chunkSize	= 0;
-			int numVoxels	= 0;
-
-			//Calculation of existing voxels
-			int wholeSize	= size.x * size.y * size.z;
-			for(int i = 0; i < wholeSize; ++i)
-				if(voxel[i] > 0)
-					++numVoxels;
-
-			//Const
-			const char*	zero	= "\0\0\0";
-
-			//Headers
-			hFile.write("VOX ", 4);
-			hFile.write(reinterpret_cast<char*>(&version), 4);
-			hFile.write("MAIN", 4);
-			hFile.write(zero, 4);
-			chunkSize	= numVoxels * sizeof(vec<uchar>) + 0x434;	
-			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
-
-			hFile.write("SIZE", 4);
-			chunkSize	= 12;
-			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
-			hFile.write(zero, 4);
-			hFile.write(reinterpret_cast<char*>(&size.x), 4);
-			hFile.write(reinterpret_cast<char*>(&size.y), 4);
-			hFile.write(reinterpret_cast<char*>(&size.z), 4);
-
-			//Voxels
-			hFile.write("XYZI", 4);
-			chunkSize	= 4 + numVoxels * sizeof(vec<uchar>);
-			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);	
-			hFile.write(zero, 4);
-			hFile.write(reinterpret_cast<char*>(&numVoxels), 4);
-			
-			uchar 	val	= 0;
-			for(int z = 0; z < size.z; ++z) {
-				for(int y = 0; y < size.y; ++y) {
-					for(int x = 0; x < size.x; ++x) {
-						val	= GetVoxel(x, y, z);
-						if(val > 0) {
-							int	vox	= (
-								(val << 24) & 0xFF000000
-							) | (
-								(z << 16) & 0x00FF0000
-							) | (
-								(y << 8) & 0x0000FF00
-							) | x;
-							hFile.write(reinterpret_cast<char*>(&vox), 4);
-						}
+		void Flip(bool doX, bool doY, bool doZ) {
+			uchar	current = 0;
+			uchar	mirror	= 0;
+			if(doX) {
+				for(int z = 0; z < size.z; ++z) {
+					for(int y = 0; y < size.y; ++y) {
+						int	halfX	= floor(size.x * 0.5f);
+						for(int x = 0; x < halfX; ++x) {
+							current	= GetVoxelRaw(x, y, z);
+							mirror	= GetVoxelRaw(halfX - x - 1, y, z);
+							SetVoxelRaw(x, y, z, mirror);
+							SetVoxelRaw(halfX - x - 1, y, z, current);
+						}	
 					}
 				}
 			}
-
-			//Palette
-			hFile.write("RGBA", 4);
-			chunkSize	= 0x400;
-			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
-			hFile.write(zero, 4);
-
-			for(int i = 0; i < 256; ++i) {
-				hFile.write(reinterpret_cast<char*>(&palette[i]), 4);
+			if(doY) {
+				for(int z = 0; z < size.z; ++z) {
+					for(int x = 0; x < size.x; ++x) {
+						int	halfY	= floor(size.y * 0.5f);
+						for(int y = 0; y < halfY; ++y) {
+							current	= GetVoxelRaw(x, y, z);
+							mirror	= GetVoxelRaw(x, halfY - y - 1, z);
+							SetVoxelRaw(x, y, z, mirror);
+							SetVoxelRaw(x, halfY - y - 1, z, current);
+						}	
+					}
+				}
 			}
-
-			hFile.flush();
-			hFile.close();
-
-			return true;
+			if(doZ) {
+				for(int x = 0; x < size.x; ++x) {
+					for(int y = 0; y < size.y; ++y) {
+						int	halfZ	= floor(size.z * 0.5f);
+						for(int z = 0; z < halfZ; ++z) {
+							current	= GetVoxelRaw(x, y, z);
+							mirror	= GetVoxelRaw(x, y, halfZ - x - 1);
+							SetVoxelRaw(x, y, z, mirror);
+							SetVoxelRaw(x, y, halfZ - z - 1, current);
+						}	
+					}
+				}
+			}
 		}
 
 	private:
+		void Alloc(int x, int y, int z) {
+			size.Set(x, y, z);
+			unsigned int wholeSize	= x * y * z;
+			voxel					= new uchar[wholeSize];
+			memset(voxel, 0, wholeSize);
+		}
+
 		class Chunk {
 			public:
 				enum Type : int {
@@ -351,9 +343,7 @@ class VOX {
 					case(Chunk::Type::SIZE): {
 						hFile.read(reinterpret_cast<char*>(&size), 12);
 
-						unsigned int wholeSize	= size.x * size.y * size.z;
-						voxel					= new uchar[wholeSize];
-						memset(voxel, 0, wholeSize);
+						Alloc(size.x, size.y, size.z);
 						break;
 					}
 					case(Chunk::Type::XYZI): {
@@ -412,6 +402,76 @@ class VOX {
 			if(not customPalette)
 				SetDefaultPalette();
 			
+			return true;
+		}
+
+		bool WriteFile(ofstream& hFile) {
+			//Temporary
+			int	chunkSize	= 0;
+			int numVoxels	= 0;
+
+			//Calculation of existing voxels
+			int wholeSize	= size.x * size.y * size.z;
+			for(int i = 0; i < wholeSize; ++i)
+				if(voxel[i] > 0)
+					++numVoxels;
+
+			//Const
+			const char*	zero	= "\0\0\0";
+
+			//Headers
+			hFile.write("VOX ", 4);
+			hFile.write(reinterpret_cast<char*>(&version), 4);
+			hFile.write("MAIN", 4);
+			hFile.write(zero, 4);
+			chunkSize	= numVoxels * sizeof(vec<uchar>) + 0x434;	
+			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
+
+			hFile.write("SIZE", 4);
+			chunkSize	= 12;
+			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
+			hFile.write(zero, 4);
+			hFile.write(reinterpret_cast<char*>(&size.x), 4);
+			hFile.write(reinterpret_cast<char*>(&size.y), 4);
+			hFile.write(reinterpret_cast<char*>(&size.z), 4);
+
+			//Voxels
+			hFile.write("XYZI", 4);
+			chunkSize	= 4 + numVoxels * sizeof(vec<uchar>);
+			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);	
+			hFile.write(zero, 4);
+			hFile.write(reinterpret_cast<char*>(&numVoxels), 4);
+			
+			uchar 	val	= 0;
+			for(int z = 0; z < size.z; ++z) {
+				for(int y = 0; y < size.y; ++y) {
+					for(int x = 0; x < size.x; ++x) {
+						val	= GetVoxel(x, y, z);
+						if(val > 0) {
+							int	vox	= (
+								(val << 24) & 0xFF000000
+							) | (
+								(z << 16) & 0x00FF0000
+							) | (
+								(y << 8) & 0x0000FF00
+							) | x;
+							hFile.write(reinterpret_cast<char*>(&vox), 4);
+						}
+					}
+				}
+			}
+
+			//Palette
+			hFile.write("RGBA", 4);
+			chunkSize	= 0x400;
+			hFile.write(reinterpret_cast<char*>(&chunkSize), 4);
+			hFile.write(zero, 4);
+
+			for(int i = 0; i < 256; ++i) {
+				hFile.write(reinterpret_cast<char*>(&palette[i]), 4);
+			}
+
+			hFile.flush();
 			return true;
 		}
 

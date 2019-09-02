@@ -6,6 +6,7 @@
 #include <vector>
 #include <algorithm>
 #include <map>
+#include <thread>
 #include <cstring>
 #include <cmath>
 
@@ -17,9 +18,6 @@ typedef vec<float>	vertex;
 
 class MarchingCubeModel {
 	private:
-		static constexpr double halfTexturePixelSize	= 0.001953125;
-		static constexpr double texturePixelSize		= 0.00390625;
-
 		vector<vertex>		vertices;
 		vector<int>			indices;
 		vector<uchar>		colors;
@@ -35,17 +33,34 @@ class MarchingCubeModel {
 
 			//Space allocation
 			scale		/= upscale;
-			VOX 		newVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
-			VOX 		finalVox(newVox.SizeX(), newVox.SizeY(), newVox.SizeZ());
-			vec<int>	halfSize(newVox.SizeX() * 0.5f, newVox.SizeY() * 0.5f, newVox.SizeZ() * 0.5f);
+
+			VOX*		vox1	= nullptr;
+			VOX*		vox2	= nullptr;
+			#pragma omp parallel sections
+			{
+				#pragma omp section
+				{
+					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+				}
+				#pragma omp section
+				{
+					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+				}
+			}
+			VOX&		newVox		= *vox1;
+			VOX&		finalVox	= *vox2;
+			vec<int>	halfSize	= newVox.SizeX() * 0.5f;
 
 			//Palette copy
+			#pragma omp parallel for
 			for(int i = 0; i < 256; ++i) {
 				finalVox.AccessPalleteColor(i).Set(
 					vox.AccessPalleteColor(i)
 				);
 			}
+
 			//Scalling 3x
+			#pragma omp parallel for
 			for(int z = 0; z < vox.SizeZ(); ++z) {
 				for(int y = 0; y < vox.SizeY(); ++y) {
 					for(int x = 0; x < vox.SizeX(); ++x) {
@@ -64,12 +79,13 @@ class MarchingCubeModel {
 									}
 								}
 							}
-						}
+						}//Weeeeee, pyramid of shame
 					}
 				}
 			}
 
 			//Removing corner/edge voxels
+			#pragma omp parallel for
 			for(int z = 0; z < newVox.SizeZ(); ++z) {
 				for(int y = 0; y < newVox.SizeY(); ++y) {
 					for(int x = 0; x < newVox.SizeX(); ++x) {
@@ -80,13 +96,10 @@ class MarchingCubeModel {
 								x + colorGrab[i].x,
 								y + colorGrab[i].y,
 								z + colorGrab[i].z
-							) > 0) {
-								 ++ID;
-							}
+							) > 0)	++ID;
 						}
-						if(ID >= 5) {
+						if(ID >= 5)
 							finalVox.SetVoxel(x, y, z, newVox.GetVoxel(x, y, z));
-						}
 					}
 				}
 			}
@@ -110,47 +123,30 @@ class MarchingCubeModel {
 						if(bits == 0 or bits == 255)
 							continue;
 
+						bits -= 1;
+
 						int triangulationVert	= 0;
 						for(int i = 0; i < 15; ++i) {
 							int edge = triangulation[bits][triangulationVert];
-							if(edge != -1) {
-								/*
-								vertex	v1(
-									x + edgeOffset[edge][0].x,
-									y + edgeOffset[edge][0].y,
-									z + edgeOffset[edge][0].z
-								);
-								vertex	v2(
-									x + edgeOffset[edge][1].x,
-									y + edgeOffset[edge][1].y,
-									z + edgeOffset[edge][1].z
-								);
-								vertex	pos(
-									((v1.x + v2.x) * 0.5f - halfSize.x) * scale,
-									((v1.y + v2.y) * 0.5f) * scale,
-									((v1.z + v2.z) * 0.5f - halfSize.z) * scale
-								);
-								*/
-								auto	_v1 = position + edgeOffset[edge][0];
-								auto	_v2 = position + edgeOffset[edge][1];
-								vertex	v1(_v1.x, _v1.y, _v1.z);
-								vertex	v2(_v2.x, _v2.y, _v2.z);
-								vertex	pos(
-									((v1 + v2) * 0.5f - vec<float>(halfSize.x, 0, halfSize.z)) * scale
-								);
-
-								auto it = find(vertices.begin(), vertices.end(), pos);
-								if(it == vertices.end()) {
-									vertices.push_back(pos);
-									indices.push_back(vertices.size() - 1);
-								} else {
-									indices.push_back(distance(vertices.begin(), it));
-								}
-
-								++triangulationVert;
-							} else {
+							if(edge == -1)
 								break;
+							auto	_v1 = position + edgeOffset[edge][0];
+							auto	_v2 = position + edgeOffset[edge][1];
+							vertex	v1(_v1.x, _v1.y, _v1.z);
+							vertex	v2(_v2.x, _v2.y, _v2.z);
+							vertex	pos(
+								((v1 + v2) * 0.5f - vec<float>(halfSize.x, 0, halfSize.z)) * scale
+							);
+
+							auto it = find(vertices.begin(), vertices.end(), pos);
+							if(it == vertices.end()) {
+								vertices.push_back(pos);
+								indices.push_back(vertices.size() - 1);
+							} else {
+								indices.push_back(distance(vertices.begin(), it));
 							}
+
+							++triangulationVert;
 						}
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
@@ -171,54 +167,47 @@ class MarchingCubeModel {
 			ofstream hFile(path, ios::trunc bitor ios::out);
 
 			hFile
-				<< "#Vertex count: " << vertices.size() << '\n'
-				<< "#Triangles count: " << (indices.size() / 3) << '\n'
 				<< "g " << (name == ""? "Model": name) << '\n'
 				<< "mtllib material.mtl\n"
 				<< "usemtl palette\n"
 			<< endl;
 
 			//Vertex ID/Normal map
-			vector<vec<double>>	normals;
+			vector<vec<float>>	normals;
 			map<int, int>		normalMap;
-			int 			triangleID = 0;
-			for(size_t i = 0; i < indices.size(); ++i) {
-				if(i%3 == 0) {
-					++triangleID;
-				} else if(i%3 == 2) {
-					auto&	A	= vertices[indices[i - 2]];
-					auto&	B	= vertices[indices[i - 1]];
-					auto&	C	= vertices[indices[i]];
 
-					vec<double>	AB(B.x - A.x, B.y - A.y, B.z - A.z);
-					vec<double>	AC(C.x - A.x, C.y - A.y, C.z - A.z);
-					vec<double>	normal(AB.Cross(AC).Normalized());
+			for(size_t i = 2; i < indices.size(); i += 3) {
+				auto&	A	= vertices[indices[i - 2]];
+				auto&	B	= vertices[indices[i - 1]];
+				auto&	C	= vertices[indices[i]];
 
-					//Naive "compression" due to doubles removal
-					normal.Set(
-						floor(normal.x * 10000.0) / 10000.0,
-						floor(normal.y * 10000.0) / 10000.0,
-						floor(normal.z * 10000.0) / 10000.0
-					);
-					//float/double bit sign problem
-					normal.Set(
-						normal.x == -0.0? 0.0: normal.x,
-						normal.y == -0.0? 0.0: normal.y,
-						normal.z == -0.0? 0.0: normal.z
-					);
+				auto	AB	= B - A;
+				auto	AC	= C - A;
+				vec<float>	normal(AB.Cross(AC).Normalized());
 
-					auto it = find(normals.begin(), normals.end(), normal);
-					if(it != normals.end()) {
-						normalMap[i]	= distance(normals.begin(), it);
-					} else {
-						normals.push_back(normal);
-						normalMap[i] 	= normals.size();
-						hFile	<< "vn"
-								<< ' ' << normal.x
-								<< ' ' << normal.y
-								<< ' ' << normal.z
-						<< endl;
-					}
+				//Naive "compression" due to doubles removal
+				normal.Set(
+					floor(normal.x * 10000.0) / 10000.0,
+					floor(normal.y * 10000.0) / 10000.0,
+					floor(normal.z * 10000.0) / 10000.0
+				);
+				//float/double bit sign problem
+				normal.Set(
+					normal.x == -0.0? 0.0: normal.x,
+					normal.y == -0.0? 0.0: normal.y,
+					normal.z == -0.0? 0.0: normal.z
+				);
+
+				auto it = find(normals.begin(), normals.end(), normal);
+				if(it != normals.end()) {
+					normalMap[i]	= distance(normals.begin(), it);
+				} else {
+					normals.push_back(normal);
+					normalMap[i] 	= normals.size();
+
+					hFile	<< "vn"
+							<< ' ' << normal.x << ' ' << normal.y << ' ' << normal.z
+					<< endl;
 				}
 			}
 
@@ -392,8 +381,7 @@ class MarchingCubeModel {
 			{-1, 1, 1}
 		};
 
-		const int triangulation[256][16] = {
-			{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+		const int triangulation[254][16] = {
 			{0, 8, 3, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{0, 1, 9, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{1, 8, 3, 9, 8, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
@@ -647,8 +635,10 @@ class MarchingCubeModel {
 			{1, 10, 2, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{1, 3, 8, 9, 1, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
 			{0, 9, 1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-			{0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
-			{-1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
+			{0, 3, 8, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1, -1}
 		};
+
+		static constexpr double halfTexturePixelSize	= 0.001953125;
+		static constexpr double texturePixelSize		= 0.00390625;
 };
 #endif

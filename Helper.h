@@ -160,10 +160,8 @@ class Helper {
 		static bool CreateDirList(vector<string>& list) {
 			bool good	= true;
 			for(string dir : list) {
-				if(not IsDir(dir)) {
-					if(not CreateDir(dir)) {
-						good = false; 
-					}
+				if(not IsDir(dir) and not CreateDir(dir)) {
+					good = false;
 				}
 			}
 			return good;
