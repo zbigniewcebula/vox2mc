@@ -1,6 +1,6 @@
 #if 0
 #!/bin/bash
-g++ -ggdb $0 -Wall -pthread -fopenmp -Wno-unused-result --std=c++17 -O3 -o vox2mc
+g++ $0 -Wall -fpermissive -pthread -msse2 -msse4.1 -fopenmp -Wno-unused-result --std=c++17 -O2 -o vox2mc
 exit
 #endif
 #include <iostream>
@@ -41,6 +41,13 @@ int main(int argc, char** argv) {
 
 	paramManager.addParam("-s", "--scale", "Changes scale of output OBJ, default: 0.03125", "SCALE");
 	paramManager.addParam("-u", "--upscale", "Changes upscaling factor of conversion, default: 3.0", "FACTOR");
+
+	paramManager.addParam("-fx", "--flip-x", "Flips model by mirroring X axis", "");
+	paramManager.addParam("-fy", "--flip-y", "Flips model by mirroring Y axis", "");
+	paramManager.addParam("-fz", "--flip-z", "Flips model by mirroring Z axis", "");
+
+	paramManager.addParamSeparator();
+
 	paramManager.addParam("-t", "--time", "Shows time of VOX to OBJ conversion", "");
 
 	if(paramManager.process(argc, argv) == false)
@@ -48,8 +55,17 @@ int main(int argc, char** argv) {
 	//--
 
 	//Gathering values
-	float	scale	= paramManager.hasValue("-s")? Helper::String2Float(paramManager.getValueOf("-s")): 0.03125f;
-	float	upscale	= paramManager.hasValue("-u")? Helper::String2Float(paramManager.getValueOf("-u")): 3.0f;
+	float	scale	= paramManager.hasValue("-s")?
+		Helper::String2Float(paramManager.getValueOf("-s")): 0.03125f;
+	float	upscale	= paramManager.hasValue("-u")?
+		Helper::String2Float(paramManager.getValueOf("-u")): 3.0f;
+
+	bool	flipX	= paramManager.hasValue("-fx")?
+		paramManager.getValueOf("-fx") == "1": false;
+	bool	flipY	= paramManager.hasValue("-fy")?
+		paramManager.getValueOf("-fy") == "1": false;
+	bool	flipZ	= paramManager.hasValue("-fz")?
+		paramManager.getValueOf("-fz") == "1": false;
 
 	//Time
 	bool								timeShow	= paramManager.hasValue("-t");
@@ -91,20 +107,26 @@ int main(int argc, char** argv) {
 					start = high_resolution_clock::now();
 
 				//Load
-				cout << "[" << idx++ << "] " << entry << flush;
+				cout << "[" << idx++ << "] " << entry << " [" << flush;
 				
 				VOX model;
 				if(not model.LoadFile(entry)) {
 					cerr	<< "[Error] Cannot open input file!" << endl;
 					return 1;
 				}
-				cout << '.' << flush;
+				cout << 'L' << flush;
+
+				//Optional flip
+				if(flipX or flipY or flipZ) {
+					model.Flip(flipX, flipY, flipZ);
+					cout << 'F' << flush;
+				}
 
 				//Convert
 				MarchingCubeModel output;
 				output.LoadVoxels(model, scale, upscale);
 
-				cout << '.' << flush;
+				cout << 'V' << flush;
 
 				string 	 outPath = Helper::ReplaceAll(
 					entry, inDir, outDir
@@ -116,7 +138,7 @@ int main(int argc, char** argv) {
 				//Save
 				output.SaveOBJ(outPath);
 
-				cout << '.' << flush;
+				cout << "S]" << flush;
 
 				if(timeShow) {
 					cout	<< " (" << duration_cast<milliseconds>(high_resolution_clock::now() - start).count()
@@ -133,7 +155,7 @@ int main(int argc, char** argv) {
 		string	out	= Helper::GetAbsolutePath(paramManager.getValueOf("-o"));
 
 		if(Helper::IsFile(in)) {
-			cout << "[] " << in << flush;
+			cout << "[*] " << in << " [" << flush;
 
 			//Load
 			VOX model;
@@ -141,17 +163,21 @@ int main(int argc, char** argv) {
 				cerr	<< "[Error] Cannot open input file!" << endl;
 				return 1;
 			}
-			cout << '.' << flush;
+			cout << 'L' << flush;
+
+			//Optional flip
+			if(flipX or flipY or flipZ) {
+				model.Flip(flipX, flipY, flipZ);
+				cout << 'F' << flush;
+			}
 
 			//Convert & Save
 			MarchingCubeModel output;
-
-			cout << '.' << flush;
 			output.LoadVoxels(model, scale, upscale);
-			
-			cout << '.' << flush;
+			cout << 'V' << flush;
+
 			output.SaveOBJ(out);
-			cout << '.' << endl;
+			cout << "S]" << endl;
 		} else {
 			cerr << "[File] Input file is inaccesible, does not exists or is not a file!" << endl;
 		}

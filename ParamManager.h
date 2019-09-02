@@ -126,6 +126,9 @@ class ParamManager {
 						printHelp();
 						return false;
 					} else if((*lastParam) == "-t"
+					||	(*lastParam) == "-fx"
+					||	(*lastParam) == "-fy"
+					||	(*lastParam) == "-fz"
 					) {
 						(*lastParam).value	= "1";
 					} else if((*lastParam).value != "") {

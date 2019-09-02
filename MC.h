@@ -6,7 +6,6 @@
 #include <vector>
 #include <algorithm>
 #include <map>
-#include <thread>
 #include <cstring>
 #include <cmath>
 
@@ -181,15 +180,15 @@ class MarchingCubeModel {
 				auto&	B	= vertices[indices[i - 1]];
 				auto&	C	= vertices[indices[i]];
 
-				auto	AB	= B - A;
-				auto	AC	= C - A;
-				vec<float>	normal(AB.Cross(AC).Normalized());
+				auto		AB		= B - A;
+				auto		AC		= C - A;
+				vec<float>	normal	= AB.NormalizedCross(AC);
 
 				//Naive "compression" due to doubles removal
 				normal.Set(
-					floor(normal.x * 10000.0) / 10000.0,
-					floor(normal.y * 10000.0) / 10000.0,
-					floor(normal.z * 10000.0) / 10000.0
+					round(normal.x * 1000.0) / 1000.0,
+					round(normal.y * 1000.0) / 1000.0,
+					round(normal.z * 1000.0) / 1000.0
 				);
 				//float/double bit sign problem
 				normal.Set(
