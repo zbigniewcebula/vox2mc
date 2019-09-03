@@ -145,6 +145,11 @@ int main(int argc, char** argv) {
 				//Naive replace of VOX to OBJ in filename
 				outPath.replace(outPath.length() - 4, 4, ".obj");
 
+				//Fetching model name
+				size_t	idx		= outPath.find_last_of('/');
+				size_t	idxEnd	= outPath.find_last_of('.');
+				output.name 	= outPath.substr(idx + 1, outPath.length() - idxEnd);
+
 				//Save
 				output.SaveOBJ(outPath);
 
@@ -186,6 +191,12 @@ int main(int argc, char** argv) {
 			output.LoadVoxels(model, scale, upscale);
 			cout << 'V' << flush;
 
+			//Fetching model name
+			size_t	idx		= out.find_last_of('/');
+			size_t	idxEnd	= out.find_last_of('.');
+			output.name 	= out.substr(idx + 1, out.length() - idxEnd);
+
+			//Save
 			output.SaveOBJ(out);
 			cout << "S]" << endl;
 		} else {
