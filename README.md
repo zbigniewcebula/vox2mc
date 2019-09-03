@@ -7,6 +7,7 @@ Linux: gcc version 7.4.0 (Ubuntu 7.4.0-1ubuntu1~18.04.1)
 Windows: gcc version 5.3.0 (GCC)
 
 ### TODO
+
 * Fill README.md with usefull info ( ͡° ͜ʖ ͡°)
 * Optimize output mesh
 * Valgrind checks

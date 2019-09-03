@@ -1,5 +1,6 @@
 #ifndef __HELPER__
 #define __HELPER__
+
 #include <string>
 #include <algorithm>
 #include <vector>
@@ -12,13 +13,14 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 
-
 #ifdef __unix__
 	#include <linux/limits.h>
 #else
 	#include "windows.h"
 	#undef small
 #endif
+
+using std::vector;
 
 class Helper {
 	public:

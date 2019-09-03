@@ -9,6 +9,8 @@
 
 #include "Helper.h"
 
+using std::vector;
+
 class ParamManager {
 	public:
 		class Param {
@@ -43,9 +45,10 @@ class ParamManager {
 				}
 
 				void print() {
-					cout	<< right << setw(7) << small << (small.empty()? "": ", ") << left << setw(14) << big
-							<< setw(20) << valueDescription
-							<< '\t' << setw(40) << description << '\n';
+					cout	<< std::right << std::setw(7) << small << (small.empty()? "": ", ")
+							<< std::left << std::setw(14) << big
+							<< std::setw(20) << valueDescription
+							<< '\t' << std::setw(40) << description << '\n';
 				}
 
 				bool operator==(const Param& rhs) {

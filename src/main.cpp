@@ -1,20 +1,30 @@
 #if 0
 #!/bin/bash
-g++ $0 -Wall -fpermissive -pthread -msse2 -msse4.1 -fopenmp -Wno-unused-result --std=c++17 -O2 -o vox2mc
+g++ $0 -Wall -fpermissive -pthread -msse2 -msse4.1 -fopenmp\
+	-Wno-unused-result --std=c++17 -O2 -o ./../bin/vox2mc
 exit
 #endif
+
+
 #include <iostream>
 #include <chrono>
 #include <algorithm>
 
-using namespace std;
-using namespace chrono;
+using std::string;
+using std::cerr;
+using std::cout;
+using std::flush;
+using std::endl;
+using std::chrono::milliseconds;
+using std::chrono::high_resolution_clock;
+using std::chrono::duration_cast;
+using std::chrono::time_point;
 
 #include "Helper.h"
+#include "ParamManager.h"
+
 #include "VOX.h"
 #include "MC.h"
-
-#include "ParamManager.h"
 
 int main(int argc, char** argv) {
 	//Checking args

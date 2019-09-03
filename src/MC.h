@@ -15,6 +15,10 @@ typedef vec<int>	triangle;
 typedef vec<int>	coord;
 typedef vec<float>	vertex;
 
+using std::map;
+using std::vector;
+using std::ofstream;
+
 class MarchingCubeModel {
 	private:
 		vector<vertex>		vertices;
@@ -35,23 +39,31 @@ class MarchingCubeModel {
 
 			VOX*		vox1	= nullptr;
 			VOX*		vox2	= nullptr;
+#ifdef __unix__
 			#pragma omp parallel sections
 			{
 				#pragma omp section
 				{
+#endif
 					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+#ifdef __unix__
 				}
 				#pragma omp section
 				{
+#endif
 					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+#ifdef __unix__
 				}
 			}
+#endif
 			VOX&		newVox		= *vox1;
 			VOX&		finalVox	= *vox2;
 			vec<int>	halfSize	= newVox.SizeX() * 0.5f;
 
 			//Palette copy
+#ifdef __unix__
 			#pragma omp parallel for
+#endif
 			for(int i = 0; i < 256; ++i) {
 				finalVox.AccessPalleteColor(i).Set(
 					vox.AccessPalleteColor(i)
@@ -59,7 +71,9 @@ class MarchingCubeModel {
 			}
 
 			//Scalling 3x
+#ifdef __unix__
 			#pragma omp parallel for
+#endif
 			for(int z = 0; z < vox.SizeZ(); ++z) {
 				for(int y = 0; y < vox.SizeY(); ++y) {
 					for(int x = 0; x < vox.SizeX(); ++x) {
@@ -84,7 +98,9 @@ class MarchingCubeModel {
 			}
 
 			//Removing corner/edge voxels
+#ifdef __unix__
 			#pragma omp parallel for
+#endif
 			for(int z = 0; z < newVox.SizeZ(); ++z) {
 				for(int y = 0; y < newVox.SizeY(); ++y) {
 					for(int x = 0; x < newVox.SizeX(); ++x) {
@@ -163,7 +179,7 @@ class MarchingCubeModel {
 		}
 
 		void SaveOBJ(string path) {
-			ofstream hFile(path, ios::trunc bitor ios::out);
+			ofstream hFile(path, std::ios::trunc bitor std::ios::out);
 
 			hFile
 				<< "g " << (name == ""? "Model": name) << '\n'

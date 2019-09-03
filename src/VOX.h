@@ -5,12 +5,13 @@
 #include <fstream>
 #include <cstring>
 #include <cmath>
-#include <type_traits>
 
 #include <xmmintrin.h>
 #include <smmintrin.h>
 
-using namespace std;
+using std::vector;
+using std::ifstream;
+using std::ofstream;
 
 typedef unsigned char	uchar;
 
@@ -205,7 +206,7 @@ class VOX {
 			if(voxel != nullptr)
 				delete[]	voxel;
 
-			ifstream	hFile(path, ios::in bitor ios::binary);
+			ifstream	hFile(path, std::ios::in bitor std::ios::binary);
 
 			if(hFile.fail()) {
 				cerr	<< "[VOX] Failed to open file!" << endl;
@@ -222,7 +223,7 @@ class VOX {
 		}
 		bool SaveFile(const char* name = "") {
 			//File
-			ofstream	hFile(name, ios::trunc bitor ios::out bitor ios::binary);
+			ofstream	hFile(name, std::ios::trunc bitor std::ios::out bitor std::ios::binary);
 
 			if(hFile.fail()) {
 				hFile.close();
@@ -276,7 +277,9 @@ class VOX {
 			uchar	current = 0;
 			uchar	mirror	= 0;
 			if(doX) {
+#ifdef __unix__
 				#pragma omp parallel for
+#endif
 				for(int z = 0; z < size.z; ++z) {
 					for(int y = 0; y < size.y; ++y) {
 						int	halfX	= floor(size.x * 0.5f);
@@ -290,7 +293,9 @@ class VOX {
 				}
 			}
 			if(doY) {
+#ifdef __unix__
 				#pragma omp parallel for
+#endif
 				for(int z = 0; z < size.z; ++z) {
 					for(int x = 0; x < size.x; ++x) {
 						int	halfY	= floor(size.y * 0.5f);
@@ -304,7 +309,9 @@ class VOX {
 				}
 			}
 			if(doZ) {
+#ifdef __unix__
 				#pragma omp parallel for
+#endif
 				for(int x = 0; x < size.x; ++x) {
 					for(int y = 0; y < size.y; ++y) {
 						int	halfZ	= floor(size.z * 0.5f);
@@ -451,7 +458,8 @@ class VOX {
 						break;
 					}
 					default: {
-						cerr	<< "[VOX] Unknown header (at 0x" << hex << hFile.tellg() << dec << "), ignoring!"
+						cerr	<< "[VOX] Unknown header (at 0x" << std::hex
+								<< hFile.tellg() << std::dec << "), ignoring!"
 								<< endl;
 						break;
 					}
@@ -572,7 +580,17 @@ class VOX {
 				0xff880000, 0xff770000, 0xff550000, 0xff440000, 0xff220000, 0xff110000, 0xffeeeeee, 0xffdddddd,
 				0xffbbbbbb, 0xffaaaaaa, 0xff888888, 0xff777777, 0xff555555, 0xff444444, 0xff222222, 0xff111111,
 			};
-			memcpy(reinterpret_cast<void*>(palette), defaultPalette, sizeof(vec<uchar>) * 255);
+#ifdef __unix__
+			#pragma omp parallel for
+#endif
+			for(int i = 0; i < 256; ++i) {
+				palette[i].Set(
+					uchar((defaultPalette[i] & 0xFF00) >> 8),
+					uchar((defaultPalette[i] & 0xFF0000) >> 16),
+					uchar((defaultPalette[i] & 0xFF000000) >> 24),
+					uchar(defaultPalette[i] & 0xFF)
+				);
+			}
 		}
 
 		static constexpr const int MV_VERSION	= 150;

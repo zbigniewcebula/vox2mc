@@ -1,0 +1,2317 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"__m",
+				"__m128	abc"
+			],
+			[
+				"inc",
+				"include	abc"
+			],
+			[
+				"final",
+				"finalVox	abc"
+			],
+			[
+				"norma",
+				"calcNormal"
+			],
+			[
+				"SetVo",
+				"SetVoxelRaw	abc"
+			],
+			[
+				"GetV",
+				"GetVoxelRaw	abc"
+			],
+			[
+				"len",
+				"length	abc"
+			],
+			[
+				"cs",
+				"c_str	abc"
+			],
+			[
+				"vec",
+				"vector	std::vector"
+			],
+			[
+				"Create",
+				"CreateDirList	(Helper.h)"
+			],
+			[
+				"new",
+				"newValue	abc"
+			],
+			[
+				"hay",
+				"haystack	abc"
+			],
+			[
+				"be",
+				"begin	abc"
+			],
+			[
+				"color",
+				"colorPalleteIndex	abc"
+			],
+			[
+				"Save",
+				"SaveOBJ	abc"
+			],
+			[
+				"begin",
+				"beginend	$1.begin(), $1.end()"
+			],
+			[
+				"Load",
+				"LoadVoxels	(MC.h)"
+			],
+			[
+				"edge",
+				"edgeOffset	abc"
+			],
+			[
+				"in",
+				"include	abc"
+			],
+			[
+				"num",
+				"numVoxels	abc"
+			],
+			[
+				"normal",
+				"normalIdx	abc"
+			],
+			[
+				"Entity",
+				"EntityAI	abc"
+			],
+			[
+				"igo",
+				"ignoreFilter	abc"
+			],
+			[
+				"slop",
+				"slopeIDX	abc"
+			],
+			[
+				"Loado",
+				"LoadVOXCornerFill	(Model.h)"
+			],
+			[
+				"slope",
+				"slopeBit	abc"
+			],
+			[
+				"nei",
+				"neighbors	abc"
+			],
+			[
+				"Set",
+				"SetVoxel	(VOX.h)"
+			],
+			[
+				"back",
+				"backID	abc"
+			],
+			[
+				"sub",
+				"vox2obj.sublime-workspace"
+			],
+			[
+				"tra",
+				"triangle"
+			],
+			[
+				"vec4",
+				"vec4i"
+			],
+			[
+				"neigh",
+				"neighbors"
+			],
+			[
+				"mark",
+				"markSides"
+			],
+			[
+				"end",
+				"endif"
+			],
+			[
+				"ma",
+				"material.mtl"
+			],
+			[
+				"create",
+				"createDirectoryTree	(DirUtils.h)"
+			],
+			[
+				"vecto",
+				"vector"
+			],
+			[
+				"ser",
+				"searchIn"
+			],
+			[
+				"prin",
+				"print	(DirCopy.h)"
+			],
+			[
+				"Dire",
+				"Directory"
+			],
+			[
+				"Siz",
+				"SizeY"
+			],
+			[
+				"Voxel",
+				"VoxelColorID"
+			],
+			[
+				"VOxel",
+				"VoxelColorID"
+			],
+			[
+				"part",
+				"partsMap"
+			],
+			[
+				"Size",
+				"SizeZ	(Model.h)"
+			],
+			[
+				"SizE",
+				"SizeY	(Model.h)"
+			],
+			[
+				"inpu",
+				"inputPath"
+			],
+			[
+				"colorIN",
+				"colorListIndex"
+			],
+			[
+				"output",
+				"outputPath"
+			],
+			[
+				"Obj",
+				"OBJVoxel	(main.cpp)"
+			],
+			[
+				"size",
+				"sizeX	(VOX.h)"
+			],
+			[
+				"voxel",
+				"voxels"
+			],
+			[
+				"VoxelC",
+				"VoxelColorID	(VOX.h)"
+			],
+			[
+				"Voxe",
+				"VoxelColorID"
+			],
+			[
+				"force",
+				"forceShow	(Console.cs)"
+			],
+			[
+				"static",
+				"static_cast"
+			],
+			[
+				"layer",
+				"layers"
+			],
+			[
+				"tile",
+				"tileSize"
+			],
+			[
+				"outf",
+				"outIsFile"
+			],
+			[
+				"find_",
+				"find_last_of"
+			],
+			[
+				"dpl",
+				"displayResult"
+			],
+			[
+				"display",
+				"displayResult"
+			],
+			[
+				"displa",
+				"displayResult"
+			],
+			[
+				"proces",
+				"processingBar	(helpFunctions.h)"
+			],
+			[
+				"outpu",
+				"outputPath"
+			],
+			[
+				"raw",
+				"rawInt	(MagicaVoxel.h)"
+			],
+			[
+				"child",
+				"childrenChunk"
+			],
+			[
+				"Forc",
+				"forceQuit"
+			],
+			[
+				"remote",
+				"ipRemote"
+			],
+			[
+				"erro",
+				"ErrorCode"
+			],
+			[
+				"Nick",
+				"Nickname"
+			],
+			[
+				"Chat",
+				"CHATMSG"
+			],
+			[
+				"ca",
+				"category"
+			],
+			[
+				"Text",
+				"TextureDatabase"
+			],
+			[
+				"cate",
+				"categoryName"
+			],
+			[
+				"categ",
+				"category	(WorldGen_R2RL.cs)"
+			],
+			[
+				"rigi",
+				"rigid"
+			],
+			[
+				"get",
+				"getRandomTextureID	(TextureDatabase.cs)"
+			],
+			[
+				"Textu",
+				"TextureDatabase	(WorldGen_R2RL.cs)"
+			],
+			[
+				"Texture",
+				"Texture2D"
+			],
+			[
+				"Editor",
+				"EditorStyles"
+			],
+			[
+				"Edito",
+				"EditorGUILayout"
+			],
+			[
+				"Templ",
+				"WorldGen_Template"
+			],
+			[
+				"Worl",
+				"WorldGen_Template"
+			],
+			[
+				"rotat",
+				"rotateMap"
+			],
+			[
+				"x",
+				"xArea	(WorldGen_R2RL.cs)"
+			],
+			[
+				"Floo",
+				"FloorToInt	(MassObject.cs)"
+			],
+			[
+				"rego",
+				"regions"
+			],
+			[
+				"Vect",
+				"Vector2Int"
+			],
+			[
+				"Vec",
+				"Vector2Int"
+			],
+			[
+				"regions",
+				"regions"
+			],
+			[
+				"regio",
+				"regionsAmount"
+			],
+			[
+				"massM",
+				"massMultipler	(MassObject.cs)"
+			],
+			[
+				"Item",
+				"ItemBehaviour"
+			],
+			[
+				"limit",
+				"massLimit"
+			],
+			[
+				"Canva",
+				"CanvasGroup"
+			],
+			[
+				"Dama",
+				"DamageEvent"
+			],
+			[
+				"for",
+				"foreach	(MassObjectEditor.cs)"
+			],
+			[
+				"PArti",
+				"ParticleObject"
+			],
+			[
+				"base",
+				"baseMass"
+			],
+			[
+				"Begin",
+				"BeginHorizontal	(ItemDatabaseEditor.cs)"
+			],
+			[
+				"Editorgui",
+				"EditorGUILayout	(ItemDatabaseEditor.cs)"
+			],
+			[
+				"rigidbo",
+				"Rigidbody"
+			],
+			[
+				"Unit",
+				"UnityEditor	(ItemDatabaseEditor.cs)"
+			],
+			[
+				"n",
+				"null"
+			],
+			[
+				"filter",
+				"filterID"
+			],
+			[
+				"Find",
+				"FindAll"
+			],
+			[
+				"Editorg",
+				"EditorGUI"
+			],
+			[
+				"Seriali",
+				"SerializeField"
+			],
+			[
+				"getTextu",
+				"getTextureByID	(TextureDatabase.cs)"
+			],
+			[
+				"instan",
+				"instance	(TextureDatabase.cs)"
+			],
+			[
+				"pickRan",
+				"pickRandomColor	(AreaTemplate.cs)"
+			],
+			[
+				"pickran",
+				"pickRandomTexture	(AreaTemplate.cs)"
+			],
+			[
+				"GetText",
+				"getTextureByID_local"
+			],
+			[
+				"instance",
+				"instance_local"
+			],
+			[
+				"Wor",
+				"WorldGen_R2RL"
+			],
+			[
+				"db",
+				"dbID"
+			],
+			[
+				"getTEx",
+				"getTexturebyID_local"
+			],
+			[
+				"id",
+				"dbID"
+			],
+			[
+				"Fie",
+				"LabelField"
+			],
+			[
+				"Seria",
+				"Serializable	(AreaTemplate.cs)"
+			],
+			[
+				"Serili",
+				"SerializeField"
+			],
+			[
+				"onThr",
+				"onThrowHit	(EntityAction.cs)"
+			],
+			[
+				"Start",
+				"StartCoroutine	(Player.cs)"
+			],
+			[
+				"Editog",
+				"EditorGUI"
+			],
+			[
+				"mini",
+				"miniLabel"
+			],
+			[
+				"Remo",
+				"RemoveAt"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "VOX.h",
+			"settings":
+			{
+				"buffer_size": 16123,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "main.cpp",
+			"settings":
+			{
+				"buffer_size": 5583,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "ParamManager.h",
+			"settings":
+			{
+				"buffer_size": 4032,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "MC.h",
+			"settings":
+			{
+				"buffer_size": 23816,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "/A/Projects/vox2mc-gui/.gitignore",
+			"settings":
+			{
+				"buffer_size": 1824,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "Helper.h",
+			"settings":
+			{
+				"buffer_size": 3856,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "README.md",
+			"settings":
+			{
+				"buffer_size": 907,
+				"line_ending": "Windows"
+			}
+		},
+		{
+			"file": "COMPILE.bat",
+			"settings":
+			{
+				"buffer_size": 144,
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "Packages/User/C++11.sublime-build",
+	"command_palette":
+	{
+		"height": 107.0,
+		"selected_items":
+		[
+			[
+				"JSON",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"Remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"INstal",
+				"Package Control: Install Package"
+			],
+			[
+				"Insta",
+				"Package Control: Install Package"
+			],
+			[
+				"instal",
+				"Package Control: Install Package"
+			],
+			[
+				"Intall",
+				"Package Control: Install Package"
+			],
+			[
+				"Instal",
+				"Package Control: Install Package"
+			],
+			[
+				"JSON ",
+				"JSON Reindent: reindent file or selection"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"unity",
+				"Unity Reference: Search Selection"
+			],
+			[
+				"remove",
+				"Package Control: Remove Package"
+			],
+			[
+				"INstall",
+				"Package Control: Install Package"
+			],
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"Packa",
+				"Package Control: List Packages"
+			],
+			[
+				"Install",
+				"Package Control: Install Package"
+			],
+			[
+				"Lista",
+				"Package Control: List Packages"
+			],
+			[
+				"List",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 454.0
+	},
+	"console":
+	{
+		"height": 531.0
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/A/Projects/vox2mc-gui/README.md",
+		"/A/Projects/vox2mc/vox.obj",
+		"/A/Projects/vox2obj/Model.h",
+		"/A/Projects/vox2mc/DUPA/3/5/8/vox.vox",
+		"/A/Projects/vox2mc/README.md",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/TO_REMOVE/vox.obj",
+		"/A/Projects/vox2obj/README.md",
+		"/C/Users/zbign/OneDrive/Pulpit/test/test.ino",
+		"/A/Projects/vox2obj/VOX.h",
+		"/C/Users/zbign/OneDrive/Pulpit/untitled.obj",
+		"/A/Projects/vox2mc/material.mtl",
+		"/A/Projects/vox2obj/COMPILE.sh",
+		"/A/Projects/vox2mc/VOX.h",
+		"/A/Projects/vox2obj/DirUtils.h",
+		"/A/Projects/vox2obj/helpFunctions.h",
+		"/A/Projects/DoL-Models/CONVERT_ALL.sh",
+		"/C/Users/zbign/OneDrive/Pulpit/img.html",
+		"/A/Projects/vox2obj/test.vox",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/resources/aidb.asset",
+		"/A/Projects/DoL-Models/LOG.log",
+		"/A/Projects/DoL-Models/LOG2.log",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/editor/ColliderAligment.cs",
+		"/A/Projects/vox2obj/main.cpp",
+		"/A/Projects/DoL-Models/items/OUT/vox/food/efoo0.obj",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/model/items/edged/wedg3.obj",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/model/items/food/efoo0.obj",
+		"/A/Projects/DoL-Models/items/OUT/vox/food/efoo1.obj",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/transitions/TransitionAfterAttack.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/AI_Transition.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/EntityAI.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/AI_BehaviourList.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/transitions/TransitionCloseEntity.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/actions/ActionAttack.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/AI_Action.cs",
+		"/C/Users/zbign/OneDrive/Pulpit/blnk/blnk.ino",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/AI_Behaviour.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/transitions/TransitionCloseFurniture.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/ai/transitions/TransitionHave.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/resources/localdb.asset",
+		"/C/Users/zbign/OneDrive/Pulpit/Lang_lobby.csv",
+		"/A/Program Files/Application Verifier/vrfauto.h",
+		"/A/Projects/DoL-Models/CONVERTED/Monsters/vox/animals/crow/crow_m.obj",
+		"/A/Projects/vox2obj/MODEL.obj",
+		"/A/Projects/vox2obj/MODEL — kopia.obj",
+		"/A/Projects/vox2obj/vox2obj.sublime-project",
+		"/C/Users/zbign/AppData/Local/Temp/scp41413/domains/onionmilk.org/public_html/index.html",
+		"/C/Users/zbign/AppData/Local/Temp/scp56058/domains/onionmilk.org/public_html/styles/stylesPositions.css",
+		"/C/Users/zbign/AppData/Local/Temp/scp43419/domains/onionmilk.org/public_html/src/Page.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp54819/domains/onionmilk.org/public_html/src/ModelLoader.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp43829/domains/onionmilk.org/public_html/src/PersonalPage.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp56686/domains/onionmilk.org/public_html/styles/personal.css",
+		"/C/Users/zbign/AppData/Local/Temp/scp56957/domains/onionmilk.org/public_html/styles/styles.css",
+		"/C/Users/zbign/AppData/Local/Temp/scp56585/domains/onionmilk.org/public_html/styles/stylesWindows.css",
+		"/C/Users/zbign/AppData/Local/Temp/scp57430/domains/onionmilk.org/public_html/styles/lang.css",
+		"/C/Users/zbign/AppData/Local/Temp/scp56579/domains/onionmilk.org/public_html/src/Scroll.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp42615/domains/onionmilk.org/public_html/src/MainPage.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp53018/domains/onionmilk.org/public_html/src/Physic.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp53223/domains/onionmilk.org/public_html/src/Lang.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp43924/domains/onionmilk.org/public_html/src/ClockSystem.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp43692/domains/onionmilk.org/public_html/src/galleryGame.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp43158/domains/onionmilk.org/public_html/src/gallery.js",
+		"/C/Users/zbign/AppData/Local/Temp/scp42973/domains/onionmilk.org/public_html/qache.html",
+		"/C/Users/zbign/OneDrive/Pulpit/googlesheetstest-master/googlesheetstest/Assets/code/import.cs",
+		"/C/Users/zbign/AppData/Local/Temp/data.csv",
+		"/A/Program Files (x86)/GOG Galaxy/Games/HoMM 2 Gold/dosboxhomm2.conf",
+		"/A/Program Files (x86)/GOG Galaxy/Games/HoMM 2 Gold/dosboxhomm2_single.conf",
+		"/A/Program Files (x86)/GOG Galaxy/Games/HoMM 2 Gold/dosboxhomm2_client.conf",
+		"/C/Games/FH2Enh/fheroes2.key",
+		"/A/Pobrane/DungeonOfLoot-35751535e152.json",
+		"/A/Projects/vox2obj/ParamManager.h",
+		"/A/Projects/vox2obj/VOXSplit.h",
+		"/C/Users/zbign/OneDrive/Pulpit/db.sqlite",
+		"/A/Projects_Local/Local/Experiments_UNITY/Expriments/Assets/MODEL.obj",
+		"/A/Projects/vox2obj/mat.mtl",
+		"/C/Users/zbign/AppData/Local/Temp/Transvoxel.cpp",
+		"/A/Projects/obj2mc/ParamManager.h",
+		"/A/Projects/obj2mc/vector.h",
+		"/A/Projects/obj2mc/helpFunctions.h",
+		"/A/Projects/obj2mc/main.cpp",
+		"/A/Projects/obj2mc/README.md",
+		"/A/Projects/obj2mc/COMPILE.sh",
+		"/A/Projects/vox2obj/COMPILE.bat",
+		"/A/Projects/vox2obj/test.obj",
+		"/C/Users/zbign/AppData/Local/Temp/cube.raw",
+		"/A/Projects/vox2obj/test.vox.obj",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/resources/itemdb.asset",
+		"/A/Projects/Prezentacja_GSPv2/Assets/model/table.obj",
+		"/A/Projects/Prezentacja_GSPv2/Assets/model/chair_01.obj",
+		"/C/Users/zbign/OneDrive/Pulpit/rng.cs",
+		"/A/Projects/Prezentacja_GSPv2/Assets/notatki.txt",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/TEST/material.mtl",
+		"/C/Users/zbign/OneDrive/Pulpit/tone/tone.ino",
+		"/A/Projects/vox2obj/DirCopy.h",
+		"/A/Projects/vox2obj/ParamsManager.h",
+		"/A/Projects/vox2obj/material.mtl",
+		"/A/Projects/vox2obj/TEST.mtl",
+		"/A/Projects/vox2stackedsprites/ParamsManager.h",
+		"/A/Projects/vox2stackedsprites/main.cpp",
+		"/A/Projects/vox2stackedsprites/Model.h",
+		"/A/Projects/vox2stackedsprites/OBJVoxel.h",
+		"/A/Projects/vox2stackedsprites/README.md",
+		"/A/Projects/vox2obj/output.obj",
+		"/A/Projects/vox2obj/penguin.vox",
+		"/A/Projects/vox2obj/.gitignore",
+		"/A/Projects/_vox2obj/.gitignore",
+		"/A/Projects/_vox2obj/README.md",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/README.md",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/polygonize.cpp",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/main.cpp",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/VoxReader.h",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/VoxReader.cpp",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/polygonize.h",
+		"/C/Users/zbign/OneDrive/Pulpit/vox2mesh/build/vox2obj/test.obj",
+		"/A/Projects/vox2stackedsprites/COMPILE.bat",
+		"/A/Projects/vox2obj/Preview.h",
+		"/A/Projects/vox2stackedsprites/helpFunctions.h",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/gui/Console.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/sandbox/ConsoleScene.cs",
+		"/A/Pobrane/sql_dump.sql",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/objects/FurnitureData.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/globals/RNG.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/NavMeshComponents/Editor/NavMeshSurfaceEditor.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/NavMeshComponents/Scripts/NavMeshSurface.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/PostProcessing/Editor/PropertyDrawers/MinDrawer.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/editor/inspector/AreaTemplateInspector.cs",
+		"/A/Projects/DungeonOfLoot/DungeonOfLoot/Assets/src/editor/Sandbox.cs",
+		"/C/Users/zbign/AppData/Local/Temp/7zO83A97A4B/_functions.php",
+		"/C/Users/zbign/OneDrive/Pulpit/JAVASCIPT/Kamila.html"
+	],
+	"find":
+	{
+		"height": 48.0
+	},
+	"find_in_files":
+	{
+		"height": 88.0,
+		"where_history":
+		[
+			"<open files>",
+			"<open folders>",
+			"A:\\Projects\\DungeonOfLoot\\DungeonOfLoot\\Assets\\src",
+			"A:\\Projects\\DungeonOfLoot\\DungeonOfLoot\\src",
+			"A:\\Projects\\DungeonOfLoot\\DungeonOfLoot",
+			"A:\\Projects\\DungeonOfLoot",
+			"A:\\Projects\\DungeonOfLoot\\DungeonOfLoot\\Assets\\src",
+			"D:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets\\src",
+			"D:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets\\plugins\\Sirenix",
+			"D:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets\\",
+			"D:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets\\src",
+			"D:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets",
+			"F:\\Projects\\Repo\\DungeonOfLoot\\DungeonOfLoot\\Assets\\src",
+			"<open files>",
+			"F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\Src,F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\Blur\\Shaders,F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\ZbigniewOutline",
+			"F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\Src,F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\Blur\\Shaders",
+			"F:\\Projects\\Repo\\Pigeon_Fight-PC\\Assets\\Src",
+			"<open folders>",
+			"/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Pigeon,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Menu,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Game,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Global",
+			"/mnt/C/Users/Zbigniew/Dropbox/Projekty/W trakcie/SALL/Modular_SALL/src,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Pigeon,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Menu,/run/user/1000/gvfs/smb-share:server=192.168.0.2,share=e/PigeonFight/Assets/src/Game",
+			"/mnt/C/Users/Zbigniew/Dropbox/Projekty/W trakcie/SALL/Modular_SALL/src"
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"byte",
+			"[L",
+			"int th",
+			"colorGrab",
+			"sml",
+			"Parameter",
+			"sml",
+			"Param",
+			"small",
+			"string",
+			"scale",
+			"dirs",
+			"start_pos",
+			"startWit",
+			"statWo",
+			"halfTexturePixelSize",
+			"corner",
+			"delete",
+			"GetVoxelRaw",
+			"remapPositionI",
+			"edgeOffset",
+			"remapPositionI",
+			"remapVoxel",
+			"clrID",
+			"Cross",
+			"voc",
+			"colorMap",
+			"\"vt",
+			"halfTexturePixelSize",
+			"0.5 1 1",
+			"1 1 0.5",
+			" ",
+			"ReadFile",
+			"GetSizeX",
+			"edges",
+			"triangulation",
+			"edgeTable",
+			"ushort",
+			"\"\\0\\0\\0\\0\"",
+			"name",
+			"mqub",
+			"mqua",
+			"mbol",
+			"marr",
+			"print()",
+			"\";",
+			"cout",
+			"neighbors",
+			"vIDX",
+			"SetVox",
+			"qache",
+			"qche",
+			"Init",
+			"LoadGFX",
+			"LoadPersonalBackGround",
+			"persons",
+			"qache",
+			"qche",
+			"Qche",
+			"qache",
+			"qche",
+			"baikal",
+			"mult",
+			"halfTexturePixelSize",
+			"map",
+			"//88",
+			"map",
+			"0b11111110",
+			"0b00001000",
+			"0b00001100",
+			"0b00000100",
+			"0b00001001",
+			"0b00001111",
+			"0b00000110",
+			"0b00000001",
+			"0b00000011",
+			"0b00000010",
+			"0b10001000",
+			"0b11001100",
+			"0b10111011",
+			"0b01000100",
+			"0b10011001",
+			"0b01100110",
+			"0b00010001",
+			"0b00100010",
+			"0b00110011",
+			"0b10000000",
+			"0b11010000",
+			"0b110100000",
+			"0b01000000",
+			"0b10010000",
+			"0b11110000",
+			"0b01100000",
+			"0b00010000",
+			"0b00110000",
+			"0b00100000",
+			"qbol",
+			": q",
+			"mspe",
+			"mqua",
+			"mbol",
+			"marr",
+			"vec4",
+			"ReadModelFile",
+			"bad",
+			"exists",
+			"defaultPalette",
+			"IsEmpty",
+			"FreeMemory",
+			"Clear",
+			"FreeMemory",
+			"ushort",
+			"ushoty",
+			"find_last_of",
+			"mtlFile",
+			"paramsManager",
+			"ReadModelFile",
+			"neigh[",
+			"pixelSize",
+			"halfPixelSize",
+			"cube",
+			"OBJVoxel",
+			"->t",
+			"Cube",
+			"map",
+			"color",
+			"dirs",
+			".w"
+		],
+		"highlight": false,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"std::string",
+			"a",
+			"_",
+			"pqub",
+			"pqua",
+			"pbol",
+			"parr",
+			"pbol",
+			"pspe",
+			"pqua",
+			"qbol",
+			"parr",
+			"->triangle",
+			".a",
+			"vID); vID++;",
+			"Size",
+			"sizeY",
+			"sizeZ",
+			"sizeX",
+			"base.serialize().",
+			"[System.Serializable, StructLayout",
+			"StructLayout",
+			"wblu",
+			"if",
+			"heightMap",
+			"roomMap",
+			"	",
+			"lst.Add(\"[\" + i + \"] \" + db.categories[i] + \" (Count: \" + db.getCount_local(i) + \")\");",
+			"",
+			"	",
+			"CopyFurnitureData",
+			"	",
+			"LocalDatabase.Get(\"chat\"",
+			"	",
+			"CollisionEvent",
+			"",
+			"  max: -3",
+			"max: -3.4028235e+38\n      ticks:",
+			"range:\n        min: ",
+			"ange:\n        min: ",
+			"	",
+			"",
+			"OdinSerialize",
+			"ClientEntry",
+			", Required]",
+			"slots",
+			"useItem",
+			"es",
+			"eq.useItem",
+			"UseItem(itemIndex);",
+			"slot",
+			"AssignPointedItemToQuickBar",
+			"Quaternion.identity",
+			"eq.WornItem",
+			"eq.RemoveWornItem",
+			"eq",
+			"RefreshHandsMiniatures",
+			"	",
+			"ObjectDatabase",
+			"GameManager.isLoading()",
+			"yield break;",
+			"db.instance.",
+			"i",
+			"	",
+			"ItemManager",
+			"	",
+			"player",
+			"ea",
+			"mv",
+			"i%2 == 0",
+			"temp",
+			"Vector2.right",
+			"Vector2.one",
+			"Vector2.zero",
+			"Vector3.zero",
+			"Vector3.one",
+			"RepairedItem",
+			"mapSize",
+			"Server.client",
+			"	",
+			"UnityEngine.Random",
+			"Random",
+			" ",
+			" 	  ",
+			" ",
+			".",
+			"\\",
+			"-",
+			"|",
+			"",
+			"	",
+			"\"] = \"",
+			"	",
+			"str",
+			";",
+			"$1, $2",
+			"	",
+			"src=\"img/$1.jpg\"",
+			"src=\"img/$1.png\"",
+			"src=\"js/$1.js\"",
+			"href=\"css/$1.css\"",
+			"href=\"css/$1\"",
+			"href=\"css/$1.css\"",
+			"ItemManager.handle",
+			"getLastSpawned",
+			"camera",
+			"	",
+			"init()",
+			"getCamera()",
+			"uży",
+			"RNG.Random",
+			"RNG.Names",
+			"RNG.Furniture",
+			"RNG.Random",
+			"RNG.Map.",
+			"RNG.Random.",
+			"	",
+			"setCursor",
+			"enableDeathScreen",
+			"ItemLoader",
+			"	",
+			"getMoveSpeed",
+			"enableMenu",
+			"useTarget",
+			"ItemSlot",
+			"	",
+			"event",
+			"	"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "VOX.h",
+					"settings":
+					{
+						"buffer_size": 16123,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1740,
+								1740
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "main.cpp",
+					"settings":
+					{
+						"buffer_size": 5583,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								320,
+								320
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 94.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "ParamManager.h",
+					"settings":
+					{
+						"buffer_size": 4032,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								3499,
+								3499
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 1899.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 2,
+			"sheets":
+			[
+				{
+					"buffer": 3,
+					"file": "MC.h",
+					"settings":
+					{
+						"buffer_size": 23816,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								651,
+								651
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 527.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "/A/Projects/vox2mc-gui/.gitignore",
+					"settings":
+					{
+						"buffer_size": 1824,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								1824,
+								1824
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/Text/Plain text.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "Helper.h",
+					"settings":
+					{
+						"buffer_size": 3856,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								200,
+								200
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/C++/C++.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 6,
+					"file": "README.md",
+					"settings":
+					{
+						"buffer_size": 907,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								232,
+								232
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/Markdown/Markdown.tmLanguage",
+							"translate_tabs_to_spaces": false
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "COMPILE.bat",
+					"settings":
+					{
+						"buffer_size": 144,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								61,
+								61
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_c_define",
+								"bh_c_define_center",
+								"bh_c_define_open",
+								"bh_c_define_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"syntax": "Packages/Batch File/Batch File.tmLanguage"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 41.0
+	},
+	"input":
+	{
+		"height": 35.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.511286681715,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.doc":
+	{
+		"height": 0.0
+	},
+	"output.exec":
+	{
+		"height": 295.0
+	},
+	"replace":
+	{
+		"height": 104.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+			[
+				"chat",
+				"Scripts/ui/Chat.cs"
+			],
+			[
+				"console",
+				"Scripts/gui/Console.cs"
+			],
+			[
+				"areate",
+				"Scripts/container/AreaTemplate.cs"
+			],
+			[
+				"text",
+				"Scripts/container/TextureDatabase.cs"
+			],
+			[
+				"effectrenderer",
+				"CameraEffects/EffectRenderer.cs"
+			],
+			[
+				"playercamer",
+				"Scripts/player/PlayerCamera.cs"
+			],
+			[
+				"player",
+				"Scripts/player/Player.cs"
+			],
+			[
+				"r2r",
+				"Scripts/generator/world/WorldGen_R2RL.cs"
+			],
+			[
+				"mass",
+				"Scripts/objects/MassObject.cs"
+			],
+			[
+				"item",
+				"Scripts/items/Item.cs"
+			],
+			[
+				"itemdb",
+				"Scripts/container/ItemDatabase.cs"
+			],
+			[
+				"itemdata",
+				"Scripts/editor/inspector/ItemDatabaseEditor.cs"
+			],
+			[
+				"itemman",
+				"Scripts/items/ItemManager.cs"
+			],
+			[
+				"throwa",
+				"Scripts/objects/ThrowableObject.cs"
+			],
+			[
+				"rng",
+				"Scripts/globals/RNG.cs"
+			],
+			[
+				"areat",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"texture",
+				"Scripts/container/TextureDatabase.cs"
+			],
+			[
+				"areatem",
+				"Scripts/container/AreaTemplate.cs"
+			],
+			[
+				"entity",
+				"Scripts/editor/EntityEditor.cs"
+			],
+			[
+				"base",
+				"Scripts/generator/furniture/FurnitureGen_Base.cs"
+			],
+			[
+				"templa",
+				"Scripts/generator/furniture/FurnitureGen_Template.cs"
+			],
+			[
+				"r2rl",
+				"Scripts/editor/inspector/WorldGen_R2RL_Inspector.cs"
+			],
+			[
+				"trigg",
+				"Scripts/objects/TriggerCraftObject.cs"
+			],
+			[
+				"object",
+				"Scripts/container/ObjectDatabase.cs"
+			],
+			[
+				"setting",
+				"Scripts/container/InternalSettingsDatabase.cs"
+			],
+			[
+				"clas",
+				"Scripts/globals/Classes.cs"
+			],
+			[
+				"masso",
+				"Scripts/editor/inspector/MassObjectEditor.cs"
+			],
+			[
+				"massj",
+				"Scripts/editor/inspector/MassObjectEditor.cs"
+			],
+			[
+				"destroya",
+				"Scripts/objects/DestroyableObject.cs"
+			],
+			[
+				"itemda",
+				"Scripts/editor/inspector/ItemDatabaseEditor.cs"
+			],
+			[
+				"item.cs",
+				"Scripts/items/Item.cs"
+			],
+			[
+				"enum",
+				"Scripts/globals/Enums.cs"
+			],
+			[
+				"spel",
+				"Scripts/items/Spell.cs"
+			],
+			[
+				"gameman",
+				"Scripts/GameManager.cs"
+			],
+			[
+				"gamemana",
+				"Scripts/editor/inspector/GameManagerEditor.cs"
+			],
+			[
+				"itemmana",
+				"Scripts/items/ItemManager.cs"
+			],
+			[
+				"projec",
+				"Scripts/objects/ProjectileObject.cs"
+			],
+			[
+				"class",
+				"Scripts/globals/Classes.cs"
+			],
+			[
+				"massobj",
+				"Scripts/objects/MassObject.cs"
+			],
+			[
+				"conso",
+				"Scripts/gui/Console.cs"
+			],
+			[
+				"entitydea",
+				"Scripts/entity/EntityDeath.cs"
+			],
+			[
+				"consol",
+				"Scripts/gui/Console.cs"
+			],
+			[
+				"eneitystat",
+				"Scripts/entity/EntityStatistics.cs"
+			],
+			[
+				"entityac",
+				"Scripts/entity/EntityAction.cs"
+			],
+			[
+				"partc",
+				"Scripts/objects/ParticleObject.cs"
+			],
+			[
+				"areatema",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"gae",
+				"Scripts/editor/inspector/GameManagerEditor.cs"
+			],
+			[
+				"atea",
+				"Scripts/container/AreaTemplate.cs"
+			],
+			[
+				"areatea",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"area",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"texturedar",
+				"Scripts/editor/inspector/TextureDatabaseEditor.cs"
+			],
+			[
+				"textureda",
+				"Scripts/container/TextureDatabase.cs"
+			],
+			[
+				"areatempl",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"stat",
+				"Scripts/player/Statistics.cs"
+			],
+			[
+				"destr",
+				"Scripts/objects/DestroyableObject.cs"
+			],
+			[
+				"destry",
+				"Scripts/objects/DestroyableObject.cs"
+			],
+			[
+				"proje",
+				"Scripts/objects/ProjectileObject.cs"
+			],
+			[
+				"parti",
+				"Scripts/objects/ParticleObject.cs"
+			],
+			[
+				"throwab",
+				"Scripts/objects/ThrowableObject.cs"
+			],
+			[
+				"destro",
+				"Scripts/objects/DestroyableObject.cs"
+			],
+			[
+				"craft",
+				"Scripts/container/CraftingDatabase.cs"
+			],
+			[
+				"gamemanager",
+				"Scripts/GameManager.cs"
+			],
+			[
+				"trap",
+				"Scripts/sandbox/TrapSceneManager.cs"
+			],
+			[
+				"localplay",
+				"Scripts/player/LocalPlayerCamera.cs"
+			],
+			[
+				"craf",
+				"Scripts/container/CraftingDatabase.cs"
+			],
+			[
+				"ale",
+				"Scripts/editor/inspector/AlchemyDatabaseEditor.cs"
+			],
+			[
+				"playerinpu",
+				"Scripts/player/PlayerInput.cs"
+			],
+			[
+				"playeri",
+				"Scripts/player/PlayerInput.cs"
+			],
+			[
+				"alche",
+				"Scripts/editor/inspector/AlchemyDatabaseEditor.cs"
+			],
+			[
+				"playerin",
+				"Scripts/player/PlayerInput.cs"
+			],
+			[
+				"throwabl",
+				"Scripts/objects/ThrowableObject.cs"
+			],
+			[
+				"entitymove",
+				"Scripts/entity/EntityMovement.cs"
+			],
+			[
+				"playereq",
+				"Scripts/player/PlayerUI_Equipment.cs"
+			],
+			[
+				"playern",
+				"Scripts/player/PlayerInput.cs"
+			],
+			[
+				"playerui",
+				"Scripts/player/PlayerUI.cs"
+			],
+			[
+				"entitymo",
+				"Scripts/entity/EntityMovement.cs"
+			],
+			[
+				"sett",
+				"Scripts/globals/Settings.cs"
+			],
+			[
+				"settings",
+				"Resources/settingsdb.asset"
+			],
+			[
+				"monster",
+				"Scripts/monsters/MonsterManager.cs"
+			],
+			[
+				"plaer",
+				"Scripts/player/Player.cs"
+			],
+			[
+				"areatemap",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"client",
+				"Scripts/network/ClientEntry.cs"
+			],
+			[
+				"server",
+				"Scripts/network/Server.cs"
+			],
+			[
+				"network",
+				"Scripts/network/Network.cs"
+			],
+			[
+				"entityde",
+				"Scripts/entity/EntityDeath.cs"
+			],
+			[
+				"throw",
+				"Scripts/objects/ThrowableObject.cs"
+			],
+			[
+				"world",
+				"Scripts/generator/world/WorldGen_Forest.cs"
+			],
+			[
+				"mons",
+				"Scripts/monsters/MonsterManager.cs"
+			],
+			[
+				"destroy",
+				"Scripts/objects/DestroyableObject.cs"
+			],
+			[
+				"entityst",
+				"Scripts/entity/EntityStatistics.cs"
+			],
+			[
+				"entityacti",
+				"Scripts/entity/EntityAction.cs"
+			],
+			[
+				"generato",
+				"Scripts/generator/GeneratorManager.cs"
+			],
+			[
+				"monste",
+				"Scripts/monsters/MonsterManager.cs"
+			],
+			[
+				"furnit",
+				"Scripts/generator/furniture/FurnitureSet.cs"
+			],
+			[
+				"furni",
+				"Scripts/generator/furniture/FurnitureSet.cs"
+			],
+			[
+				"fors",
+				"Scripts/generator/furniture/FurnitureGen_Forest.cs"
+			],
+			[
+				"teratem",
+				"Scripts/editor/inspector/AreaTemplateInspector.cs"
+			],
+			[
+				"furnituregen_base",
+				"Scripts/generator/furniture/FurnitureGen_Base.cs"
+			],
+			[
+				"areatemplate",
+				"Scripts/container/AreaTemplate.cs"
+			],
+			[
+				"furniture",
+				"Scripts/generator/furniture/FurnitureGen_R2RL.cs"
+			],
+			[
+				"furnitu",
+				"Scripts/generator/furniture/FurnitureGen_Empty.cs"
+			],
+			[
+				"areatempla",
+				"Scripts/container/AreaTemplate.cs"
+			],
+			[
+				"ext",
+				"Scripts/globals/Ext.cs"
+			],
+			[
+				"furnu",
+				"Scripts/generator/furniture/FurnitureSet.cs"
+			],
+			[
+				"itemdaa",
+				"Scripts/editor/inspector/ItemDatabaseEditor.cs"
+			],
+			[
+				"objec",
+				"Scripts/editor/inspector/ObjectDatabaseEditor.cs"
+			],
+			[
+				"objectk",
+				"Scripts/ObjectKiller.cs"
+			],
+			[
+				"forest",
+				"Scripts/generator/world/WorldGen_Forest.cs"
+			],
+			[
+				"fore",
+				"Scripts/generator/world/WorldGen_Forest.cs"
+			],
+			[
+				"genera",
+				"Scripts/generator/GeneratorManager.cs"
+			],
+			[
+				"wordl",
+				"Scripts/generator/world/WorldGen_Base.cs"
+			],
+			[
+				"texut",
+				"Scripts/editor/inspector/TextureDatabaseEditor.cs"
+			],
+			[
+				"te",
+				"Scripts/container/TextureDatabase.cs"
+			],
+			[
+				"fores",
+				"Scripts/generator/world/WorldGen_Forest.cs"
+			],
+			[
+				"villa",
+				"Scripts/generator/world/WorldGen_Village.cs"
+			],
+			[
+				"rnm",
+				"Scripts/generator/world/WorldGen_RnM.cs"
+			],
+			[
+				"r2",
+				"Scripts/generator/world/WorldGen_R2RL.cs"
+			],
+			[
+				"sprite",
+				"Scripts/container/SpriteContainer.cs"
+			],
+			[
+				"set",
+				"Scripts/globals/Settings.cs"
+			],
+			[
+				"itemdbed",
+				"Scripts/editor/inspector/ItemDatabaseEditor.cs"
+			],
+			[
+				"alchemd",
+				"Scripts/editor/inspector/AlchemyDatabaseEditor.cs"
+			],
+			[
+				"alchem",
+				"Scripts/container/AlchemyDatabase.cs"
+			],
+			[
+				"objectda",
+				"Scripts/container/ObjectDatabase.cs"
+			],
+			[
+				"sound",
+				"Scripts/objects/SoundObject.cs"
+			],
+			[
+				"portal",
+				"Scripts/sandbox/Portal.cs"
+			],
+			[
+				"entityact",
+				"Scripts/entity/EntityAction.cs"
+			],
+			[
+				"enitytde",
+				"Scripts/entity/EntityDeath.cs"
+			],
+			[
+				"play",
+				"Scripts/player/Player.cs"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 148.0,
+	"status_bar_visible": true
+}
