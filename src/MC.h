@@ -36,10 +36,9 @@ class MarchingCubeModel {
 
 			//Space allocation
 			scale		/= upscale;
-
+#ifdef __unix__
 			VOX*		vox1	= nullptr;
 			VOX*		vox2	= nullptr;
-#ifdef __unix__
 			#pragma omp parallel sections
 			{
 				#pragma omp section
@@ -68,7 +67,7 @@ class MarchingCubeModel {
 					vox.AccessPalleteColor(i)
 				);
 			}
-			
+
 			//Scalling 3x
 #ifdef __unix__
 			#pragma omp parallel for
@@ -142,7 +141,7 @@ class MarchingCubeModel {
 						int triangulationVert	= 0;
 						for(int i = 0; i < 15; ++i) {
 							int edge = triangulation[bits][triangulationVert];
-							cout << edge;
+							
 							if(edge == -1)
 								break;
 
@@ -164,7 +163,7 @@ class MarchingCubeModel {
 							}
 
 							++triangulationVert;
-						
+						}
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
 							ID = finalVox.GetVoxel(colorGrab[i] + position);

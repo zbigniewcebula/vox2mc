@@ -148,7 +148,7 @@ int main(int argc, char** argv) {
 				//Fetching model name
 				size_t	idx		= outPath.find_last_of('/');
 				size_t	idxEnd	= outPath.find_last_of('.');
-				output.name 	= outPath.substr(idx + 1, outPath.length() - idxEnd);
+				output.name 	= outPath.substr(idx + 1, outPath.length() - idxEnd + 1);
 
 				//Save
 				output.SaveOBJ(outPath);
@@ -194,7 +194,7 @@ int main(int argc, char** argv) {
 			//Fetching model name
 			size_t	idx		= out.find_last_of('/');
 			size_t	idxEnd	= out.find_last_of('.');
-			output.name 	= out.substr(idx + 1, out.length() - idxEnd);
+			output.name 	= out.substr(idx + 1, out.length() - idxEnd + 1);
 
 			//Save
 			output.SaveOBJ(out);
