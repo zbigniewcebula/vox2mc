@@ -56,7 +56,7 @@ class MarchingCubeModel {
 			VOX			newVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
 			VOX			finalVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
 #endif
-			vec<int>	halfSize	= newVox.SizeX() * 0.5f;
+			vertex		halfSize	= newVox.Size() * 0.5f;
 
 			//Palette copy
 #ifdef __unix__
@@ -151,7 +151,10 @@ class MarchingCubeModel {
 							vertex	v1(_v1.x, _v1.y, _v1.z);
 							vertex	v2(_v2.x, _v2.y, _v2.z);
 							vertex	pos(
-								((v1 + v2) * 0.5f - vec<float>(halfSize.x, 0, halfSize.z)) * scale
+								((v1 + v2) * 0.5f - vec<float>(
+									//halfSize.x + upscale * 0.5f, upscale - 0.5f, halfSize.z + upscale * 0.5f
+									halfSize.x + upscale, upscale - 0.5f, halfSize.z
+								)) * scale
 							);
 
 							auto it = find(vertices.begin(), vertices.end(), pos);
