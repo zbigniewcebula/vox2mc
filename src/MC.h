@@ -15,20 +15,20 @@ typedef vec<int>	triangle;
 typedef vec<int>	coord;
 typedef vec<float>	vertex;
 
-using std::map;
-using std::vector;
 using std::ofstream;
 
 class MarchingCubeModel {
 	private:
-		vector<vertex>		vertices;
-		vector<int>			indices;
-		vector<uchar>		colors;
+		std::vector<vertex>		vertices;
+		std::vector<int>		indices;
+		std::vector<uchar>		colors;
 
 	public:
 		string name = "Model";
 
-		MarchingCubeModel() {}
+		MarchingCubeModel()
+			: vertices(), indices(), colors()
+		{}
 		~MarchingCubeModel() {};
 
 		void LoadVoxels(VOX vox, float scale = 0.03125f, float upscale = 3.0f) {
@@ -44,20 +44,19 @@ class MarchingCubeModel {
 			{
 				#pragma omp section
 				{
-#endif
 					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
-#ifdef __unix__
 				}
 				#pragma omp section
 				{
-#endif
 					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
-#ifdef __unix__
 				}
 			}
-#endif
 			VOX&		newVox		= *vox1;
 			VOX&		finalVox	= *vox2;
+#else
+			VOX			newVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+			VOX			finalVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+#endif
 			vec<int>	halfSize	= newVox.SizeX() * 0.5f;
 
 			//Palette copy
@@ -69,7 +68,7 @@ class MarchingCubeModel {
 					vox.AccessPalleteColor(i)
 				);
 			}
-
+			
 			//Scalling 3x
 #ifdef __unix__
 			#pragma omp parallel for
@@ -143,10 +142,13 @@ class MarchingCubeModel {
 						int triangulationVert	= 0;
 						for(int i = 0; i < 15; ++i) {
 							int edge = triangulation[bits][triangulationVert];
+							cout << edge;
 							if(edge == -1)
 								break;
+
 							auto	_v1 = position + edgeOffset[edge][0];
 							auto	_v2 = position + edgeOffset[edge][1];
+
 							vertex	v1(_v1.x, _v1.y, _v1.z);
 							vertex	v2(_v2.x, _v2.y, _v2.z);
 							vertex	pos(
@@ -155,14 +157,14 @@ class MarchingCubeModel {
 
 							auto it = find(vertices.begin(), vertices.end(), pos);
 							if(it == vertices.end()) {
+								indices.push_back(vertices.size());
 								vertices.push_back(pos);
-								indices.push_back(vertices.size() - 1);
 							} else {
 								indices.push_back(distance(vertices.begin(), it));
 							}
 
 							++triangulationVert;
-						}
+						
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
 							ID = finalVox.GetVoxel(colorGrab[i] + position);
@@ -188,8 +190,8 @@ class MarchingCubeModel {
 			<< endl;
 
 			//Vertex ID/Normal map
-			vector<vec<float>>	normals;
-			map<int, int>		normalMap;
+			std::vector<vec<float>>	normals;
+			std::map<int, int>		normalMap;
 
 			for(size_t i = 2; i < indices.size(); i += 3) {
 				auto&	A	= vertices[indices[i - 2]];
@@ -226,7 +228,7 @@ class MarchingCubeModel {
 				}
 			}
 
-			vector<int>		uniqueColors;
+			std::vector<int>		uniqueColors;
 			for(size_t i = 0; i < colors.size(); ++i) {
 				auto it = find(uniqueColors.begin(), uniqueColors.end(), colors[i]);
 				if(it == uniqueColors.end()) {

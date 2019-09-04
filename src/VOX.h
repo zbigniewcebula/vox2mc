@@ -34,18 +34,22 @@ class vec {
 		vec(T R = 0, T G = 0, T B = 0, T A = 0)
 			:	r(R), g(G), b(B), a(A)
 		{}
-		vec(const vec<T>& org)
-#ifdef __SSE__
-			:	SIMD(org.SIMD)
-#else
-			:	r(org.r), g(org.g), b(org.b), a(org.a)
-#endif
-		{}
 #ifdef __SSE__
 		vec(__m128 org)
 			:	SIMD(org)
 		{}
+		vec(const vec<T>& org)
+		{
+			memcpy(&SIMD, &org.SIMD, sizeof(__m128));
+		}
+#else
+		vec(const vec<T>& org)
+			:	r(org.r), g(org.g), b(org.b), a(org.a)
+		{}
 #endif
+
+		~vec()
+		{}
 
 		//Methods
 		vec<T>& Set(T R, T G, T B, T A) {
