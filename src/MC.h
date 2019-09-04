@@ -43,18 +43,18 @@ class MarchingCubeModel {
 			{
 				#pragma omp section
 				{
-					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 				}
 				#pragma omp section
 				{
-					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 				}
 			}
 			VOX&		newVox		= *vox1;
 			VOX&		finalVox	= *vox2;
 #else
-			VOX			newVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
-			VOX			finalVox(vox.SizeX() * upscale, vox.SizeY() * upscale, vox.SizeZ() * upscale);
+			VOX			newVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
+			VOX			finalVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 #endif
 			vertex		halfSize	= newVox.Size() * 0.5f;
 
@@ -77,9 +77,9 @@ class MarchingCubeModel {
 					for(int x = 0; x < vox.SizeX(); ++x) {
 						ID = vox.GetVoxelRaw(x, y, z);
 						if(ID > 0) {
-							for(int Z = 0; Z < upscale; ++Z) {
-								for(int Y = 0; Y < upscale; ++Y) {
-									for(int X = 0; X < upscale; ++X) {
+							for(float Z = 0; Z < upscale; ++Z) {
+								for(float Y = 0; Y < upscale; ++Y) {
+									for(float X = 0; X < upscale; ++X) {
 										//Copy voxel with rotation fix (Magica => Unity)
 										newVox.SetVoxelRaw(
 											upscale * x + X,
@@ -152,8 +152,7 @@ class MarchingCubeModel {
 							vertex	v2(_v2.x, _v2.y, _v2.z);
 							vertex	pos(
 								((v1 + v2) * 0.5f - vec<float>(
-									//halfSize.x + upscale * 0.5f, upscale - 0.5f, halfSize.z + upscale * 0.5f
-									halfSize.x + upscale, upscale - 0.5f, halfSize.z
+									halfSize.x, upscale, halfSize.z + upscale
 								)) * scale
 							);
 
@@ -254,15 +253,15 @@ class MarchingCubeModel {
 				hFile	<< (distance(uniqueColors.begin(), it) + 1)
 						<< "/" << normalMap[indices[i + 0]] << " "
 
-						<< (indices[i + 1] + 1) << "/";
-					 it = find(uniqueColors.begin(), uniqueColors.end(), colors[i + 1]);
-				hFile	<< (distance(uniqueColors.begin(), it) + 1)
-						<< "/" << normalMap[indices[i + 1]] << " "
-	
 						<< (indices[i + 2] + 1) << "/";
 					 it = find(uniqueColors.begin(), uniqueColors.end(), colors[i + 2]);
 				hFile	<< (distance(uniqueColors.begin(), it) + 1)
-						<< "/" << normalMap[indices[i + 2]] << "\n";
+						<< "/" << normalMap[indices[i + 2]] << " "
+	
+						<< (indices[i + 1] + 1) << "/";
+					 it = find(uniqueColors.begin(), uniqueColors.end(), colors[i + 1]);
+				hFile	<< (distance(uniqueColors.begin(), it) + 1)
+						<< "/" << normalMap[indices[i + 1]] << "\n";
 			}
 			hFile << '\n';
 

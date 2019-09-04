@@ -6,8 +6,8 @@
 #include <cstring>
 #include <cmath>
 
-#include <xmmintrin.h>
-#include <smmintrin.h>
+// #include <xmmintrin.h>
+// #include <smmintrin.h>
 
 using std::vector;
 using std::ifstream;
@@ -26,27 +26,15 @@ class vec {
 				T x, y, z, w;
 			};
 
-			//SIMD Arch optimization
-			__m128	SIMD;
 			T		raw[4];
 		};
 
 		vec(T R = 0, T G = 0, T B = 0, T A = 0)
 			:	r(R), g(G), b(B), a(A)
 		{}
-#ifdef __SSE__
-		vec(__m128 org)
-			:	SIMD(org)
-		{}
-		vec(const vec<T>& org)
-		{
-			memcpy(&SIMD, &org.SIMD, sizeof(__m128));
-		}
-#else
 		vec(const vec<T>& org)
 			:	r(org.r), g(org.g), b(org.b), a(org.a)
 		{}
-#endif
 
 		~vec()
 		{}
@@ -74,50 +62,61 @@ class vec {
 		}
 
 		vec<T> NormalizedCross(const vec<T>& b) {
-#ifdef __SSE__
-			__m128 temp = _mm_sub_ps(
-				_mm_mul_ps(
-					_mm_shuffle_ps(SIMD, SIMD, _MM_SHUFFLE(3, 0, 2, 1)),
-					_mm_shuffle_ps(b.SIMD, b.SIMD, _MM_SHUFFLE(3, 1, 0, 2))
-				), 
-				_mm_mul_ps(
-					_mm_shuffle_ps(SIMD, SIMD, _MM_SHUFFLE(3, 1, 0, 2)),
-					_mm_shuffle_ps(b.SIMD, b.SIMD, _MM_SHUFFLE(3, 0, 2, 1))
-				)
-			);
-			__m128 inverse_norm = _mm_rsqrt_ps(_mm_dp_ps(temp, temp, 0x77));
- 			return _mm_mul_ps(temp, inverse_norm);
-#else
+// #ifdef __SSE__
+// 			__m128 temp = _mm_load_ps(raw);
+// 			__m128 _b = _mm_load_ps(b.raw);
+// 			temp = _mm_sub_ps(
+// 				_mm_mul_ps(
+// 					_mm_shuffle_ps(temp, temp, _MM_SHUFFLE(3, 0, 2, 1)),
+// 					_mm_shuffle_ps(_b, _b, _MM_SHUFFLE(3, 1, 0, 2))
+// 				), 
+// 				_mm_mul_ps(
+// 					_mm_shuffle_ps(temp, temp, _MM_SHUFFLE(3, 1, 0, 2)),
+// 					_mm_shuffle_ps(_b, _b, _MM_SHUFFLE(3, 0, 2, 1))
+// 				)
+// 			);
+// 			__m128 inverse_norm = _mm_rsqrt_ps(_mm_dp_ps(temp, temp, 0x77));
+			
+// 			float	ret[4];
+// 			_mm_store_ps(ret, _mm_mul_ps(temp, inverse_norm));
+//  			return vec<T>(ret[0], ret[1], ret[2], ret[3]);
+// #else
  			return Cross(b).Normalized();
-#endif
+// #endif
 		}		
 
 		vec<T> Cross(const vec<T>& b) {
-#ifdef __SSE__
-			return _mm_sub_ps(
-				_mm_mul_ps(
-					_mm_shuffle_ps(SIMD, SIMD, _MM_SHUFFLE(3, 0, 2, 1)),
-					_mm_shuffle_ps(b.SIMD, b.SIMD, _MM_SHUFFLE(3, 1, 0, 2))
-				), 
-				_mm_mul_ps(
-					_mm_shuffle_ps(SIMD, SIMD, _MM_SHUFFLE(3, 1, 0, 2)),
-					_mm_shuffle_ps(b.SIMD, b.SIMD, _MM_SHUFFLE(3, 0, 2, 1))
-				)
-			);
-#else
+// #ifdef __SSE__
+// 			__m128 temp = _mm_load_ps(raw);
+// 			__m128 _b = _mm_load_ps(b.raw);
+// 			float	ret[4];
+// 			_mm_store_ps(ret, _mm_sub_ps(
+// 				_mm_mul_ps(
+// 					_mm_shuffle_ps(temp, temp, _MM_SHUFFLE(3, 0, 2, 1)),
+// 					_mm_shuffle_ps(_b, _b, _MM_SHUFFLE(3, 1, 0, 2))
+// 				), 
+// 				_mm_mul_ps(
+// 					_mm_shuffle_ps(temp, temp, _MM_SHUFFLE(3, 1, 0, 2)),
+// 					_mm_shuffle_ps(_b, _b, _MM_SHUFFLE(3, 0, 2, 1))
+// 				)
+// 			));
+//  			return vec<T>(ret[0], ret[1], ret[2], ret[3]);
+// #else
 			vec<T> result(
 				this->y * b.z - this->z * b.y,
 				this->z * b.x - this->x * b.z,
 				this->x * b.y - this->y * b.x
 			);
 			return result;
-#endif
+// #endif
 		}
 		vec<T> Normalized() {
-#ifdef __SSE__
-			__m128 inverse_norm = _mm_rsqrt_ps(_mm_dp_ps(SIMD, SIMD, 0x77));
- 			return _mm_mul_ps(SIMD, inverse_norm);
-#else
+// #ifdef __SSE__
+// 			__m128 temp = _mm_load_ps(raw);
+// 			__m128 inverse_norm = _mm_rsqrt_ps(_mm_dp_ps(temp, temp, 0x77));
+//  			float	ret[4];
+//  			return _mm_store_ps(ret, _mm_mul_ps(temp, inverse_norm));
+// #else
 			T len	= Length();
 			vec<T> result(
 				this->y / len,
@@ -125,14 +124,15 @@ class vec {
 				this->x / len
 			);
 			return result;
-#endif
+// #endif
 		}
 		inline T Length() {
-#ifdef __SSE__
-			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(SIMD, SIMD, 0x71)));
-#else
+// #ifdef __SSE__
+// 			__m128 temp = _mm_load_ps(raw);
+// 			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_dp_ps(temp, temp, 0x71)));
+// #else
 			return (T)sqrt(x * x + y * y + z * z);
-#endif
+// #endif
 		}
 
 		//Logic
@@ -142,13 +142,13 @@ class vec {
 
 		//Artmetic
 		inline vec<T> operator+(const vec<T>& rhs) const {
-			return vec<T>(z + rhs.z, y + rhs.y, x + rhs.x);
+			return vec<T>(x + rhs.x, y + rhs.y, z + rhs.z);
 		}
 		inline vec<T> operator-(const vec<T>& rhs) const {
-			return vec<T>(z - rhs.z, y - rhs.y, x - rhs.x);
+			return vec<T>(x - rhs.x, y - rhs.y, z - rhs.z);
 		}
 		inline vec<T> operator*(const vec<T>& rhs) const {
-			return vec<T>(z * rhs.z, y * rhs.y, x * rhs.x);
+			return vec<T>(x * rhs.x, y * rhs.y, z * rhs.z);
 		}
 
 		//by Scalar
