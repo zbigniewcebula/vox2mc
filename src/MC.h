@@ -24,15 +24,18 @@ class MarchingCubeModel {
 		std::vector<uchar>		colors;
 
 	public:
-		string name = "Model";
+		string		name = "Model";
+		vec<float>	offset;
 
 		MarchingCubeModel()
-			: vertices(), indices(), colors()
+			: vertices(), indices(), colors(), offset(0, 0, 0)
 		{}
 		~MarchingCubeModel() {};
 
 		void LoadVoxels(VOX vox, float scale = 0.03125f, float upscale = 3.0f) {
+			//Temporal
 			int			ID		= 0;
+			vec<int>	pos(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
 
 			//Space allocation
 			scale		/= upscale;
@@ -43,18 +46,18 @@ class MarchingCubeModel {
 			{
 				#pragma omp section
 				{
-					vox1 = new VOX(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
+					vox1 = new VOX(pos);
 				}
 				#pragma omp section
 				{
-					vox2 = new VOX(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
+					vox2 = new VOX(pos);
 				}
 			}
 			VOX&		newVox		= *vox1;
 			VOX&		finalVox	= *vox2;
 #else
-			VOX			newVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
-			VOX			finalVox(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
+			VOX			newVox(pos);
+			VOX			finalVox(pos);
 #endif
 			vertex		halfSize	= newVox.Size() * 0.5f;
 
@@ -70,21 +73,30 @@ class MarchingCubeModel {
 
 			//Scalling 3x
 #ifdef __unix__
+			//OpenMP does not support refering to fields as initalizers etc...
 			#pragma omp parallel for
-#endif
 			for(int z = 0; z < vox.SizeZ(); ++z) {
 				for(int y = 0; y < vox.SizeY(); ++y) {
 					for(int x = 0; x < vox.SizeX(); ++x) {
-						ID = vox.GetVoxelRaw(x, y, z);
+						vec<int> _pos(x, y, z);
+#else
+			for(pos.z = 0; pos.z < vox.SizeZ(); ++(pos.z)) {
+				for(pos.y = 0; pos.y < vox.SizeY(); ++(pos.y)) {
+					for(pos.x = 0; pos.x < vox.SizeX(); ++(pos.x)) {
+						auto& _pos = pos;
+#endif
+						ID = vox.GetVoxelRaw(
+							_pos.x, vox.SizeY() - _pos.y - 1, _pos.z
+						);
 						if(ID > 0) {
 							for(float Z = 0; Z < upscale; ++Z) {
 								for(float Y = 0; Y < upscale; ++Y) {
 									for(float X = 0; X < upscale; ++X) {
 										//Copy voxel with rotation fix (Magica => Unity)
 										newVox.SetVoxelRaw(
-											upscale * x + X,
-											upscale * z + Z,
-											upscale * y + Y,
+											upscale * _pos.x + X,
+											upscale * _pos.z + Z,
+											upscale * _pos.y + Y,
 											ID
 										);
 									}
@@ -98,40 +110,42 @@ class MarchingCubeModel {
 			//Removing corner/edge voxels
 #ifdef __unix__
 			#pragma omp parallel for
-#endif
 			for(int z = 0; z < newVox.SizeZ(); ++z) {
 				for(int y = 0; y < newVox.SizeY(); ++y) {
 					for(int x = 0; x < newVox.SizeX(); ++x) {
+						vec<int> _pos(x, y, z);
+#else
+			for(pos.z = 0; pos.z < newVox.SizeZ(); ++(pos.z)) {
+				for(pos.y = 0; pos.y < newVox.SizeY(); ++(pos.y)) {
+					for(pos.x = 0; pos.x < newVox.SizeX(); ++(pos.x)) {
+						auto& _pos = pos;
+#endif
 						ID = 0;
 						//Corners/Edge ignoring
-						for(int i = 0; i < 6; ++i) {
-							if(newVox.GetVoxel(
-								x + colorGrab[i].x,
-								y + colorGrab[i].y,
-								z + colorGrab[i].z
-							) > 0)	++ID;
-						}
-						if(ID >= 5)
-							finalVox.SetVoxel(x, y, z, newVox.GetVoxel(x, y, z));
+						for(int i = 0; i < 6; ++i)
+							if(newVox.GetVoxel(_pos + colorGrab[i]) > 0)
+								++ID;
+						
+						if(ID >= 6)
+							finalVox.SetVoxel(_pos, newVox.GetVoxel(pos));
 					}
 				}
 			}
 
 			//MC
-			for(int z = -1; z <= finalVox.SizeZ(); ++z) {
-				for(int y = -1; y <= finalVox.SizeY(); ++y) {
-					for(int x = -1; x <= finalVox.SizeX(); ++x) {
+			for(pos.z = -1; pos.z <= finalVox.SizeZ(); ++(pos.z)) {
+				for(pos.y = -1; pos.y <= finalVox.SizeY(); ++(pos.y)) {
+					for(pos.x = -1; pos.x <= finalVox.SizeX(); ++(pos.x)) {
 						uchar		bits	= 0;
-						vec<int>	position(x, y, z);
 
 						for(size_t i = 0; i < 27; ++i) {
-							ID = finalVox.GetVoxel(position + corner[i]);
+							ID = finalVox.GetVoxel(pos + corner[i]);
 							if(ID > 0) {
 								bits |= cornerBits[i];
 							}
 						}
 
-						ID = finalVox.GetVoxel(position);
+						ID = finalVox.GetVoxel(pos);
 
 						if(bits == 0 or bits == 255)
 							continue;
@@ -145,21 +159,25 @@ class MarchingCubeModel {
 							if(edge == -1)
 								break;
 
-							auto	_v1 = position + edgeOffset[edge][0];
-							auto	_v2 = position + edgeOffset[edge][1];
+							auto	_v1 = pos + edgeOffset[edge][0];
+							auto	_v2 = pos + edgeOffset[edge][1];
 
-							vertex	v1(_v1.x, _v1.y, _v1.z);
-							vertex	v2(_v2.x, _v2.y, _v2.z);
-							vertex	pos(
+							vertex	v1(
+								_v1.x + offset.x, _v1.y + offset.y, _v1.z + offset.z
+							);
+							vertex	v2(
+								_v2.x + offset.x, _v2.y + offset.y, _v2.z + offset.z
+							);
+							vertex	vFinal(
 								((v1 + v2) * 0.5f - vec<float>(
 									halfSize.x, upscale, halfSize.z + upscale
 								)) * scale
 							);
 
-							auto it = find(vertices.begin(), vertices.end(), pos);
+							auto it = find(vertices.begin(), vertices.end(), vFinal);
 							if(it == vertices.end()) {
 								indices.push_back(vertices.size());
-								vertices.push_back(pos);
+								vertices.push_back(vFinal);
 							} else {
 								indices.push_back(distance(vertices.begin(), it));
 							}
@@ -168,11 +186,10 @@ class MarchingCubeModel {
 						}
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
-							ID = finalVox.GetVoxel(colorGrab[i] + position);
+							ID = finalVox.GetVoxel(colorGrab[i] + pos);
 							if(ID != 0) {
-								for(int j = 0; j < triangulationVert; ++j) {
+								for(int j = 0; j < triangulationVert; ++j)
 									colors.push_back(ID - 1);
-								}
 								break;
 							}
 						}
@@ -218,10 +235,10 @@ class MarchingCubeModel {
 
 				auto it = find(normals.begin(), normals.end(), normal);
 				if(it != normals.end()) {
-					normalMap[i]	= distance(normals.begin(), it);
+					normalMap[i]	= distance(normals.begin(), it) + 1;
 				} else {
 					normals.push_back(normal);
-					normalMap[i] 	= normals.size();
+					normalMap[i] 	= normals.size() + 1;
 
 					hFile	<< "vn"
 							<< ' ' << normal.x << ' ' << normal.y << ' ' << normal.z

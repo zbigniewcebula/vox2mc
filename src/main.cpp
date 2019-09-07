@@ -56,6 +56,10 @@ int main(int argc, char** argv) {
 	paramManager.addParam("-fy", "--flip-y", "Flips model by mirroring Y axis", "");
 	paramManager.addParam("-fz", "--flip-z", "Flips model by mirroring Z axis", "");
 
+	paramManager.addParam("-ox", "--offset-x", "Adds offset on X axis", "VOXELS_IN_X");
+	paramManager.addParam("-oy", "--offset-y", "Adds offset on Y axis", "VOXELS_IN_Y");
+	paramManager.addParam("-oz", "--offset-z", "Adds offset on Z axis", "VOXELS_IN_Z");
+
 	paramManager.addParamSeparator();
 
 	paramManager.addParam("-t", "--time", "Shows time of VOX to OBJ conversion", "");
@@ -65,10 +69,10 @@ int main(int argc, char** argv) {
 	//--
 
 	//Gathering values
-	float	scale	= paramManager.hasValue("-s")?
-		Helper::String2Float(paramManager.getValueOf("-s")): 0.03125f;
-	float	upscale	= paramManager.hasValue("-u")?
-		Helper::String2Float(paramManager.getValueOf("-u")): 3.0f;
+	float	scale	= paramManager.getValueOfFloat("-s", 0.03125f);
+	float	upscale	= paramManager.getValueOfFloat("-u", 3.0f);
+
+	cout << scale << ' ' << upscale << endl;
 
 	bool	flipX	= paramManager.hasValue("-fx")?
 		paramManager.getValueOf("-fx") == "1": false;
@@ -76,6 +80,12 @@ int main(int argc, char** argv) {
 		paramManager.getValueOf("-fy") == "1": false;
 	bool	flipZ	= paramManager.hasValue("-fz")?
 		paramManager.getValueOf("-fz") == "1": false;
+
+	vec<float>	offset(
+		paramManager.getValueOfFloat("-ox", 0),
+		paramManager.getValueOfFloat("-oy", 0),
+		paramManager.getValueOfFloat("-oz", 0)
+	);
 
 	//Time
 	bool								timeShow	= paramManager.hasValue("-t");
@@ -134,6 +144,7 @@ int main(int argc, char** argv) {
 
 				//Convert
 				MarchingCubeModel output;
+				output.offset.Set(offset);
 				output.LoadVoxels(model, scale, upscale);
 
 				cout << 'V' << flush;
@@ -188,6 +199,7 @@ int main(int argc, char** argv) {
 
 			//Convert & Save
 			MarchingCubeModel output;
+			output.offset.Set(offset);
 			output.LoadVoxels(model, scale, upscale);
 			cout << 'V' << flush;
 

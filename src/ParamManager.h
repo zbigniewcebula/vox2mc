@@ -96,6 +96,18 @@ class ParamManager {
 			}
 			return "";
 		}
+		float getValueOfFloat(std::string flag, float defaultValue = 0.0f) {
+			if(not hasValue(flag))
+				return defaultValue;
+			
+			auto	it = find_if(params.begin(), params.end(), [&](Param& p) -> bool {
+				return p == flag;
+			});
+			if(it != params.end()) {
+				return Helper::String2Float((*it).value);
+			}
+			return defaultValue;
+		}
 
 		void printList() {
 			for(Param p : params)

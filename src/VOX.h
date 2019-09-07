@@ -135,6 +135,10 @@ class vec {
 // #endif
 		}
 
+		T Distance(vec<T>& other) {
+			return (T)(other - (*this)).Length();
+		}
+
 		//Logic
 		inline bool operator==(const vec<T>& rhs) const {
 			return z == rhs.z and y == rhs.y and x == rhs.x;
@@ -239,6 +243,9 @@ class VOX {
 			return success;
 		}
 
+		inline void SetVoxel(vec<int>& pos, uchar colorPalleteIndex) {
+			SetVoxel(pos.x, pos.y, pos.z, colorPalleteIndex);
+		}
 		void SetVoxel(int x, int y, int z, uchar colorPalleteIndex) {
 			if(voxel != nullptr
 			and x > -1 and y > -1 and z > -1 
