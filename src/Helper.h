@@ -15,6 +15,7 @@
 
 #ifdef __unix__
 	#include <linux/limits.h>
+	#include <libgen.h>
 #else
 	#include "windows.h"
 	#undef small
@@ -45,9 +46,29 @@ class Helper {
 			return GetAbsolutePath(anyPath.c_str());
 		}
 
+		static string GetParentPath(const char* anyPath) {
+			string	path	= GetAbsolutePath(anyPath);
+			char*	pathBuffer;
+#ifdef __unix__
+			pathBuffer		= dirname(const_cast<char*>(path.c_str()));
+#else
+			replace(path.begin(), path.end(), '\\', '/');
+
+			size_t	slash	= path.find_last_of('/');
+			path			= path.substr(0, slash);
+			pathBuffer		= const_cast<char*>(path.c_str());
+#endif
+			string ret	= string(pathBuffer);
+			replace(ret.begin(), ret.end(), '\\', '/');
+			return ret;
+		}
+		static inline string GetParentPath(string anyPath) {
+			return GetParentPath(anyPath.c_str());
+		}
+
 		static bool IsDir(string path) {
 			struct stat info;
-			if(stat(path.c_str(), &info) != 0)
+			if(stat(path.c_str(), &info) not_eq 0)
 				return false;
 			return bool(info.st_mode & S_IFDIR);
 		}
@@ -80,7 +101,7 @@ class Helper {
 		}
 		static string ReplaceAll(const string& haystack, const string& what, const string& to) {
 			string copy	= haystack;
-			for(size_t i = copy.find(what); i != string::npos; i = copy.find(what, i + 1))
+			for(size_t i = copy.find(what); i not_eq string::npos; i = copy.find(what, i + 1))
 				copy.replace(i, what.length(), to);
 			
 			return copy;

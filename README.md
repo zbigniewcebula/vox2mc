@@ -10,8 +10,8 @@ Windows: gcc version 8.2.0 (MinGW.org GCC-8.2.0-3)
 
 * Fill README.md with usefull info ( ͡° ͜ʖ ͡°)
 * Optimize output mesh
-* Valgrind checks
-* Basic (MagicaVoxel-like) MTL generation
+* ~~Valgrind checks and corrections~~
+* ~~Basic (MagicaVoxel-like) MTL generation~~
 * ~~Compatibility with Windows~~
 * Parametrize:
 	1. ~~upscale factor __-u__/__--upscale__~~

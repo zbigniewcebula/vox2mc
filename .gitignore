@@ -31,4 +31,5 @@
 *.out
 *.app
 
-*.sublime-workspace
+bin/
+src/vox2mc.sublime-workspace

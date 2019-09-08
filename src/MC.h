@@ -32,10 +32,12 @@ class MarchingCubeModel {
 		{}
 		~MarchingCubeModel() {};
 
-		void LoadVoxels(VOX vox, float scale = 0.03125f, float upscale = 3.0f) {
+		void LoadVoxels(VOX& vox, float scale = 0.03125f, float upscale = 3.0f) {
 			//Temporal
 			int			ID		= 0;
-			vec<int>	pos(vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale);
+			vec<int>	pos(
+				vox.SizeX() * upscale, vox.SizeZ() * upscale, vox.SizeY() * upscale
+			);
 
 			//Space allocation
 			scale		/= upscale;
@@ -75,18 +77,12 @@ class MarchingCubeModel {
 #ifdef __unix__
 			//OpenMP does not support refering to fields as initalizers etc...
 			#pragma omp parallel for
+#endif
 			for(int z = 0; z < vox.SizeZ(); ++z) {
 				for(int y = 0; y < vox.SizeY(); ++y) {
 					for(int x = 0; x < vox.SizeX(); ++x) {
-						vec<int> _pos(x, y, z);
-#else
-			for(pos.z = 0; pos.z < vox.SizeZ(); ++(pos.z)) {
-				for(pos.y = 0; pos.y < vox.SizeY(); ++(pos.y)) {
-					for(pos.x = 0; pos.x < vox.SizeX(); ++(pos.x)) {
-						auto& _pos = pos;
-#endif
 						ID = vox.GetVoxelRaw(
-							_pos.x, vox.SizeY() - _pos.y - 1, _pos.z
+							x, vox.SizeY() - y - 1, z
 						);
 						if(ID > 0) {
 							for(float Z = 0; Z < upscale; ++Z) {
@@ -94,9 +90,9 @@ class MarchingCubeModel {
 									for(float X = 0; X < upscale; ++X) {
 										//Copy voxel with rotation fix (Magica => Unity)
 										newVox.SetVoxelRaw(
-											upscale * _pos.x + X,
-											upscale * _pos.z + Z,
-											upscale * _pos.y + Y,
+											upscale * x + X,
+											upscale * z + Z,
+											upscale * y + Y,
 											ID
 										);
 									}
@@ -110,32 +106,32 @@ class MarchingCubeModel {
 			//Removing corner/edge voxels
 #ifdef __unix__
 			#pragma omp parallel for
+#endif
 			for(int z = 0; z < newVox.SizeZ(); ++z) {
 				for(int y = 0; y < newVox.SizeY(); ++y) {
 					for(int x = 0; x < newVox.SizeX(); ++x) {
-						vec<int> _pos(x, y, z);
-#else
-			for(pos.z = 0; pos.z < newVox.SizeZ(); ++(pos.z)) {
-				for(pos.y = 0; pos.y < newVox.SizeY(); ++(pos.y)) {
-					for(pos.x = 0; pos.x < newVox.SizeX(); ++(pos.x)) {
-						auto& _pos = pos;
-#endif
 						ID = 0;
+
 						//Corners/Edge ignoring
 						for(int i = 0; i < 6; ++i)
-							if(newVox.GetVoxel(_pos + colorGrab[i]) > 0)
+							if(newVox.GetVoxel(
+								colorGrab[i].x + x,
+								colorGrab[i].y + y,
+								colorGrab[i].z + z
+							) > 0)
 								++ID;
 						
 						if(ID >= 6)
-							finalVox.SetVoxel(_pos, newVox.GetVoxel(pos));
+							finalVox.SetVoxel(x, y, z, newVox.GetVoxel(x, y, z));
 					}
 				}
 			}
 
 			//MC
-			for(pos.z = -1; pos.z <= finalVox.SizeZ(); ++(pos.z)) {
-				for(pos.y = -1; pos.y <= finalVox.SizeY(); ++(pos.y)) {
-					for(pos.x = -1; pos.x <= finalVox.SizeX(); ++(pos.x)) {
+			for(int z = -1; z <= finalVox.SizeZ(); ++z) {
+				for(int y = -1; y <= finalVox.SizeY(); ++y) {
+					for(int x = -1; x <= finalVox.SizeX(); ++x) {
+						pos.Set(x, y, z);
 						uchar		bits	= 0;
 
 						for(size_t i = 0; i < 27; ++i) {
@@ -187,7 +183,7 @@ class MarchingCubeModel {
 
 						for(size_t i = 0; i < sizeof(colorGrab); ++i) {
 							ID = finalVox.GetVoxel(colorGrab[i] + pos);
-							if(ID != 0) {
+							if(ID not_eq 0) {
 								for(int j = 0; j < triangulationVert; ++j)
 									colors.push_back(ID - 1);
 								break;
@@ -196,6 +192,10 @@ class MarchingCubeModel {
 					}
 				}
 			}
+#ifdef __unix__
+			delete vox1;
+			delete vox2;
+#endif
 		}
 
 		void SaveOBJ(string path) {
@@ -234,7 +234,7 @@ class MarchingCubeModel {
 				);
 
 				auto it = find(normals.begin(), normals.end(), normal);
-				if(it != normals.end()) {
+				if(it not_eq normals.end()) {
 					normalMap[i]	= distance(normals.begin(), it) + 1;
 				} else {
 					normals.push_back(normal);

@@ -9,6 +9,7 @@ exit
 #include <iostream>
 #include <chrono>
 #include <algorithm>
+#include <fstream>
 
 using std::string;
 using std::cerr;
@@ -25,6 +26,8 @@ using std::chrono::time_point;
 
 #include "VOX.h"
 #include "MC.h"
+
+void CreateMTL(string texturePath, string mtlPath);
 
 int main(int argc, char** argv) {
 	//Checking args
@@ -49,6 +52,10 @@ int main(int argc, char** argv) {
 	
 	paramManager.addParamSeparator();
 
+	paramManager.addParam("-mtl", "--material", "Creates simple MTL file (included in OBJ) with given texture", "TEXTURE_PATH");	
+
+	paramManager.addParamSeparator();
+
 	paramManager.addParam("-s", "--scale", "Changes scale of output OBJ, default: 0.03125", "SCALE");
 	paramManager.addParam("-u", "--upscale", "Changes upscaling factor of conversion, default: 3.0", "FACTOR");
 
@@ -71,8 +78,6 @@ int main(int argc, char** argv) {
 	//Gathering values
 	float	scale	= paramManager.getValueOfFloat("-s", 0.03125f);
 	float	upscale	= paramManager.getValueOfFloat("-u", 3.0f);
-
-	cout << scale << ' ' << upscale << endl;
 
 	bool	flipX	= paramManager.hasValue("-fx")?
 		paramManager.getValueOf("-fx") == "1": false;
@@ -117,6 +122,10 @@ int main(int argc, char** argv) {
 				cerr	<< "[Error] Problem with output directory creation!" << endl;
 				return  1;
 			}
+
+			//MTL Creation
+			if(paramManager.hasValue("-mtl"))
+				CreateMTL(paramManager.getValueOf("-mtl"), outDir + "/");
 
 			//Output files
 			cout << "[Files] Scanning files in directories tree..." << endl;
@@ -180,6 +189,10 @@ int main(int argc, char** argv) {
 		string 	in	= Helper::GetAbsolutePath(paramManager.getValueOf("-i"));
 		string	out	= Helper::GetAbsolutePath(paramManager.getValueOf("-o"));
 
+		//MTL Creation
+		if(paramManager.hasValue("-mtl"))
+			CreateMTL(paramManager.getValueOf("-mtl"), out);
+
 		if(Helper::IsFile(in)) {
 			cout << "[*] " << in << " [" << flush;
 
@@ -223,4 +236,26 @@ int main(int argc, char** argv) {
 				<< "s" << endl;
 
 	return 0;
+}
+
+void CreateMTL(string texturePath, string mtlPath) {
+	//Path correction
+	mtlPath	= Helper::GetParentPath(mtlPath);
+
+	//MTL Creation
+	ofstream	hTex(mtlPath + "/material.mtl", std::ios::trunc bitor std::ios::out);
+	if(hTex.good()) {
+		if(not Helper::IsFile(texturePath))
+			cerr	<< "[Material/Warning] Texture file from given path does not exists!" << endl;
+
+		hTex	<<	"newmtl texture\n"
+					"illum 0\n"
+					"Ka 0.000 0.000 0.000\n"
+					"Kd 1.000 1.000 1.000\n"
+					"Ks 0.000 0.000 0.000\n"
+					"map_Kd " << texturePath
+		<< endl;
+	} else
+		cerr << "[Material] Cannot open nor create material file! (Ignoring)" << endl;
+	hTex.close();
 }

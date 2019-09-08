@@ -173,25 +173,32 @@ class VOX {
 	private:
 		vec<int>	size;
 		vec<uchar>	palette[256];
-		uchar*		voxel			= nullptr;
+		uchar*		voxel;
 
 		int			version			= 0;
 	public:
 		VOX()
+			: voxel(nullptr)
 		{}
-		VOX(int sizeX, int sizeY, int sizeZ) {
+		VOX(int sizeX, int sizeY, int sizeZ)
+			: voxel(nullptr)
+		{
 			Alloc(sizeX, sizeY, sizeZ);
 		}
-		VOX(vec<int> setSize) {
+		VOX(vec<int> setSize)
+			: voxel(nullptr)
+		{
 			Alloc(setSize.x, setSize.y, setSize.z);
 		}
-		VOX(string path) {
+		VOX(string path)
+			: voxel(nullptr)
+		{
 			if(not LoadFile(path))
 				throw false;
 		}
 		~VOX() {
-			//if(voxel != nullptr)
-			//	delete[]	voxel;
+			if(voxel not_eq nullptr)
+				delete[]	voxel;
 		}
 		
 		inline int SizeX() {
@@ -211,9 +218,6 @@ class VOX {
 			return LoadFile(path.c_str());
 		}
 		bool LoadFile(const char* path) {
-			if(voxel != nullptr)
-				delete[]	voxel;
-
 			ifstream	hFile(path, std::ios::in bitor std::ios::binary);
 
 			if(hFile.fail()) {
@@ -247,7 +251,7 @@ class VOX {
 			SetVoxel(pos.x, pos.y, pos.z, colorPalleteIndex);
 		}
 		void SetVoxel(int x, int y, int z, uchar colorPalleteIndex) {
-			if(voxel != nullptr
+			if(voxel not_eq nullptr
 			and x > -1 and y > -1 and z > -1 
 			and x < size.x and y < size.y and z < size.z 
 			) {
@@ -341,6 +345,8 @@ class VOX {
 		void Alloc(int x, int y, int z) {
 			size.Set(x, y, z);
 			unsigned int wholeSize	= x * y * z;
+			if(voxel not_eq nullptr)
+				delete[]	voxel;
 			voxel					= new uchar[wholeSize];
 			memset(voxel, 0, wholeSize);
 		}

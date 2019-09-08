@@ -52,7 +52,8 @@ class ParamManager {
 				}
 
 				bool operator==(const Param& rhs) {
-					return rhs.small == small and rhs.big == big and description == rhs.description;
+					return	rhs.small == small and rhs.big == big
+					and		description == rhs.description;
 				}
 				bool operator==(const std::string& rhs) {
 					return (small == rhs) or (big == rhs);
@@ -80,21 +81,18 @@ class ParamManager {
 		bool exists(std::string flag) {
 			return find_if(params.begin(), params.end(), [&](Param& p) -> bool {
 				return p == flag;
-			}) != params.end();
+			}) not_eq params.end();
 		}
 
 		bool hasValue(std::string flag) {
-			return getValueOf(flag) != "";
+			return getValueOf(flag).length() not_eq 0;
 		}
 
 		std::string getValueOf(std::string flag) {
 			auto	it = find_if(params.begin(), params.end(), [&](Param& p) -> bool {
 				return p == flag;
 			});
-			if(it != params.end()) {
-				return (*it).value;
-			}
-			return "";
+			return it not_eq params.end()? (*it).value: "";
 		}
 		float getValueOfFloat(std::string flag, float defaultValue = 0.0f) {
 			if(not hasValue(flag))
@@ -103,10 +101,7 @@ class ParamManager {
 			auto	it = find_if(params.begin(), params.end(), [&](Param& p) -> bool {
 				return p == flag;
 			});
-			if(it != params.end()) {
-				return Helper::String2Float((*it).value);
-			}
-			return defaultValue;
+			return it not_eq params.end()? Helper::String2Float((*it).value): defaultValue;
 		}
 
 		void printList() {
@@ -126,8 +121,8 @@ class ParamManager {
 
 		bool process(int argc, char** argv) {
 			std::string		tempStr;
-			bool		paramOverload	= false;
-			auto		lastParam		= params.end();
+			bool			paramOverload	= false;
+			auto			lastParam		= params.end();
 			for(int i = 1; i < argc; ++i) {
 				tempStr	= argv[i];
 				if(Helper::StartsWith(tempStr, "-")) {
@@ -141,17 +136,17 @@ class ParamManager {
 						printHelp();
 						return false;
 					} else if((*lastParam) == "-t"
-					||	(*lastParam) == "-fx"
-					||	(*lastParam) == "-fy"
-					||	(*lastParam) == "-fz"
+					or	(*lastParam) == "-fx"
+					or	(*lastParam) == "-fy"
+					or	(*lastParam) == "-fz"
 					) {
 						(*lastParam).value	= "1";
-					} else if((*lastParam).value != "") {
+					} else if((*lastParam).value not_eq "") {
 						cerr	<< "Param \"" << tempStr << "\" used multiple times! Aborting..." << endl;
 						return false;
 					}
 				} else {
-					if(lastParam != params.end()) {
+					if(lastParam not_eq params.end()) {
 						(*lastParam).value	= tempStr;
 					} else {
 						paramOverload	= true;
@@ -159,9 +154,8 @@ class ParamManager {
 					lastParam	= params.end();
 				}
 			}
-			if(paramOverload) {
+			if(paramOverload)
 				cout	<< "WARNING! Too much Params, ignoring not used..." << endl;
-			}
 			return true;
 		}
 };
